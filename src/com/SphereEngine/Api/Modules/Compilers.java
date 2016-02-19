@@ -1,5 +1,10 @@
 package com.SphereEngine.Api.Modules;
 
+import java.util.Map;
+import java.util.HashMap;
+
+import com.google.gson.JsonObject;
+
 import com.SphereEngine.Api.ApiClient;
 
 /*
@@ -15,7 +20,7 @@ public class Compilers
 {
 	/**
 	 * API Client
-	 * @var SphereEngine.Api.ApiClient instance of the ApiClient
+	 * @param SphereEngine.Api.ApiClient instance of the ApiClient
 	 */
 	private ApiClient apiClient;
 	
@@ -25,12 +30,12 @@ public class Compilers
 	 * @param string version version of the API
 	 * @param string endpoint link to the endpoint
 	 */
-	public Compilers(accessToken, version, endpoint)
+	public Compilers(String accessToken, String version, String endpoint)
 	{
 		apiClient = new ApiClient(accessToken, createEndpointLink(version, endpoint));
 	}
 	
-	private String createEndpointLink(version, endpoint)
+	private String createEndpointLink(String version, String endpoint)
 	{
 	    return endpoint + ".api.compilers.sphere-engine.com/api/" + version;
 	}
@@ -44,7 +49,7 @@ public class Compilers
 	 */
 	public JsonObject test()
 	{
-	    return apiClient->callApi('/test', 'GET', null, null, null, null);
+	    return apiClient.callApi("/test", "GET", null, null, null, null, null);
 	}
 	
 	/**
@@ -56,9 +61,9 @@ public class Compilers
 	 */
 	public JsonObject getCompilers()
 	{
-	    return apiClient->callApi('/languages', 'GET', null, null, null, null);
+	    return apiClient.callApi("/languages", "GET", null, null, null, null, null);
 	}
-	
+
 	/**
 	 * create
 	 *
@@ -70,14 +75,14 @@ public class Compilers
 	 * 
 	 * @return JsonObject
 	 */
-	public JsonObject createSubmission(source="", compiler=1, input="")
+	public JsonObject createSubmission(String source, String compiler, String input)
 	{
-		postParams = [
-				'sourceCode' => source,
-				'language' => compiler,
-				'input' => input
-		];
-		return apiClient->callApi('/submissions', 'POST', null, null, postParams, null);
+		Map<String, String> postParams = new HashMap<String,String>();
+		postParams.put("sourceCode", source);
+		postParams.put("language", compiler);
+		postParams.put("input", input);
+
+		return apiClient.callApi("/submissions", "POST", null, null, postParams, null, null);
 	}
 	
 	/**
@@ -93,18 +98,19 @@ public class Compilers
 	 * @param bool withCmpinfo determines whether compilation information should be returned, default: false (optional)
 	 * @return JsonObject
 	 */
-	public JsonObject getSubmission(id, withSource=false, withInput=false, withOutput=false, withStderr=false, withCmpinfo=false)
+	public JsonObject getSubmission(String id, String withSource, String withInput, String withOutput, String withStderr, String withCmpinfo)
 	{
-		urlParams = [
-				'id' => id
-		];
-		queryParams = [
-				'withSource' => withSource,
-				'withInput' => withInput,
-				'withOutput' => withOutput,
-				'withStderr' => withStderr,
-				'withCmpinfo' => withCmpinfo
-		];
-		return apiClient->callApi('/submissions/{id}', 'GET', urlParams, queryParams, null, null);
+		Map<String, String> urlParams = new HashMap<String,String>();
+		Map<String, String> queryParams = new HashMap<String,String>();
+		
+		urlParams.put("id", id);
+		
+		queryParams.put("withSource", withSource);
+		queryParams.put("withInput", withInput);
+		queryParams.put("withOutput", withOutput);
+		queryParams.put("withStderr", withStderr);
+		queryParams.put("withCmpinfo", withCmpinfo);
+
+		return apiClient.callApi("/submissions/{id}", "GET", urlParams, queryParams, null, null, null);
 	}
 }

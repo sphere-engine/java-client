@@ -17,13 +17,13 @@ public class Api
     
     /**
      * Compilers module
-     * @var SphereEngine.Api.Compilers instance of the Compilers
+     * @param SphereEngine.Api.Compilers instance of the Compilers
      */
     private Compilers compilers = null;
     
     /**
      * Problems module
-     * @var SphereEngine.Api.Problems instance of the Problems
+     * @param SphereEngine.Api.Problems instance of the Problems
      */
     private Problems problems = null;
     
@@ -31,17 +31,17 @@ public class Api
     private String version = null;
     private String endpoint = null;
 
-    public Api(_accessToken, _version, _endpoint)
+    public Api(String accessToken, String version, String endpoint)
     {
-        accessToken = _accessToken;
-        version = _version;
-        endpoint = _endpoint;
+        this.accessToken = accessToken;
+        this.version = version;
+        this.endpoint = endpoint;
     }
 
     /**
      * @return SphereEngine.Api.Compilers compilers module client
      */
-    public function getCompilersClient()
+    public Compilers getCompilersClient()
     {
         if (compilers == null) {
             compilers = new Compilers(accessToken, version, endpoint);
@@ -52,7 +52,7 @@ public class Api
     /**
      * @return SphereEngine.Api.Problems problems module client
      */
-    public function getProblemsClient()
+    public Problems getProblemsClient()
     {
         if (problems == null) {
             problems = new Problems(accessToken, version, endpoint);
