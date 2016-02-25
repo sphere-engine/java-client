@@ -96,6 +96,7 @@ public class Compilers
 	 * @param bool withOutput determines whether output produced by the program should be returned, default: false (optional)
 	 * @param bool withStderr determines whether stderr should be returned, default: false (optional)
 	 * @param bool withCmpinfo determines whether compilation information should be returned, default: false (optional)
+	 *
 	 * @return JsonObject
 	 */
 	public JsonObject getSubmission(String id, String withSource, String withInput, String withOutput, String withStderr, String withCmpinfo)

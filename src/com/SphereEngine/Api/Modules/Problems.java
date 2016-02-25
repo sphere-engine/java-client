@@ -1,8 +1,11 @@
 package com.SphereEngine.Api.Modules;
 
-import com.SphereEngine.Api.ApiClient;
+import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.JsonObject;
+
+import com.SphereEngine.Api.ApiClient;
 
 /*
  * SphereEngine.Api.Modules.Problems
@@ -63,49 +66,62 @@ public class Problems
 	{
 	    return apiClient.callApi("/compilers", "GET", null, null, null, null, null);
 	}
+
+	/**
+	 * getJudges
+	 *
+	 * List of all judges
+	 *
+	 * @param int limit limit of judges to get, default: 10, max: 100 (optional)
+	 * @param int offset offset, default: 0 (optional)
+	 * @param string type Judge type, enum: testcase|master, default: testcase (optional)
+	 * 
+	 * @return JsonObject
+	 */
+	public JsonObject getJudges(Integer limit, Integer offset, String type)
+	{
+		Map<String, String> queryParams = new HashMap<String,String>();
+
+		// setting default values
+		limit = (limit != null) ? limit : 10;
+		offset = (offset != null) ? offset : 0;
+		type = (type != null) ? type : "testcase";
+		
+		queryParams.put("limit", Integer.toString(limit));
+		queryParams.put("offset", Integer.toString(offset));
+
+		return apiClient.callApi("/judges", "GET", null, queryParams, null, null, null);
+	}
+	
+	/**
+	 * create
+	 *
+	 * Create a new judge
+	 *
+	 * @param string source source code (required)
+	 * @param int compiler Compiler ID, default: 1 (C++) (optional)
+	 * @param string type Judge type, testcase|master, default: testcase (optional)
+	 * @param string name Judge name, default: empty (optional)
+	 * 
+	 * @return JsonObject
+	 */
+	public JsonObject createJudge(String source, Integer compiler=1, String type="testcase", String name="")
+	{
+		Map<String, String> postParams = new HashMap<String,String>();
+
+		// setting default values
+		compiler = (compiler != null) ? compiler : 1;
+		type = (type != null) ? type : "testcase";
+		name = (name != null) ? name : "";
+
+		postParams.put("source", source);
+		postParams.put("compilerId", Integer.toString(compiler));
+		postParams.put("type", type);
+		postParams.put("name", name);
+
+		return apiClient.callApi('/judges', 'POST', null, null, postParams, null, null);
+	}
 }
-//	/**
-//	 * all
-//	 *
-//	 * List of all judges
-//	 *
-//	 * @param int limit limit of judges to get, default: 10, max: 100 (optional)
-//	 * @param int offset offset, default: 0 (optional)
-//	 * @param string type Judge type, enum: testcase|master, default: testcase (optional)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject getJudges(int limit=10, int offset=0, String type="testcase")
-//	{
-//		queryParams = [
-//				'limit' => limit,
-//				'offset' => offset
-//		];
-//		return apiClient.callApi('/judges', 'GET', null, queryParams, null, null);
-//	}
-//	
-//	/**
-//	 * create
-//	 *
-//	 * Create a new judge
-//	 *
-//	 * @param string source source code (required)
-//	 * @param int compiler Compiler ID, default: 1 (C++) (optional)
-//	 * @param string type Judge type, testcase|master, default: testcase (optional)
-//	 * @param string name Judge name, default: empty (optional)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject createJudge(source, compiler=1, type="testcase", name="")
-//	{
-//		postParams = [
-//				'source' => source,
-//				'compilerId' => compiler,
-//				'type' => type,
-//				'name' => name,
-//		];
-//		return apiClient.callApi('/judges', 'POST', null, null, postParams, null);
-//	}
 //	
 //	/**
 //	 * get
