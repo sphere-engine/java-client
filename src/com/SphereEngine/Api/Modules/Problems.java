@@ -2,10 +2,12 @@ package com.SphereEngine.Api.Modules;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 
 import com.google.gson.JsonObject;
 
 import com.SphereEngine.Api.ApiClient;
+import com.SphereEngine.Api.Settings;
 
 /*
  * SphereEngine.Api.Modules.Problems
@@ -24,43 +26,49 @@ public class Problems
      */
 	private ApiClient apiClient;
 	
-    /**
-     * Constructor
-     * @param string accessToken Access token to Sphere Engine service
-     * @param string version version of the API
-     * @param string endpoint link to the endpoint
-     */
-	public Problems(String accessToken, String version, String endpoint)
+	/**
+	 * Constructor
+	 * 
+	 * @param {Settings} settings - API settings object
+	 */
+	public Problems(Settings settings)
 	{
+		String accessToken = settings.getProblemsAccessToken();
+		String version = settings.getProblemsVersion();
+		String endpoint = settings.getProblemsEndpoint();
+		
 		apiClient = new ApiClient(accessToken, createEndpointLink(version, endpoint));
 	}
-	
+		
+	/**
+	 * Create a complete API endpoint url
+	 * 
+	 * @param {String} version - API version
+	 * @param {String} endpoint - partial endpoint
+	 * @return Complete API endpoint url
+	 */
 	private String createEndpointLink(String version, String endpoint)
 	{
-	    if(endpoint == null){
-	    	return "problems.sphere-engine.com/api/" + version;
-	    } else {
-	    	return endpoint + "/api/" + version;
-	    }
+		if (endpoint == null) {
+			return "problems.sphere-engine.com/api/" + version;
+		} else {
+			return endpoint + "/api/" + version;
+		}
 	}
 	
 	/**
-	 * test
-	 *
 	 * Test method
 	 *
-	 * @return JsonObject
+	 * @return API response
 	 */
 	public JsonObject test()
 	{
 		return apiClient.callApi("/test", "GET", null, null, null, null, null);
 	}
 	/**
-	 * compilers
-	 *
 	 * List of all compilers
 	 *
-	 * @return JsonObject
+	 * @return API response
 	 */	
 	public JsonObject getCompilers()
 	{
@@ -68,194 +76,320 @@ public class Problems
 	}
 
 	/**
-	 * getJudges
+	 * List of judges
 	 *
-	 * List of all judges
-	 *
-	 * @param int limit limit of judges to get, default: 10, max: 100 (optional)
-	 * @param int offset offset, default: 0 (optional)
-	 * @param string type Judge type, enum: testcase|master, default: testcase (optional)
-	 * 
-	 * @return JsonObject
+	 * @param {integer} limit - limit of judges to get
+	 * @param {integer} offset  - offset
+	 * @param {string} type - Judge type, enum: testcase|master
+	 * @return API response
 	 */
 	public JsonObject getJudges(Integer limit, Integer offset, String type)
 	{
 		Map<String, String> queryParams = new HashMap<String,String>();
-
-		// setting default values
-		limit = (limit != null) ? limit : 10;
-		offset = (offset != null) ? offset : 0;
-		type = (type != null) ? type : "testcase";
 		
 		queryParams.put("limit", Integer.toString(limit));
 		queryParams.put("offset", Integer.toString(offset));
+		queryParams.put("type", type);
 
 		return apiClient.callApi("/judges", "GET", null, queryParams, null, null, null);
 	}
+
+	/**
+	 * List of testcase judges
+	 *
+	 * @param {integer} limit - limit of judges to get
+	 * @param {integer} offset - offset
+	 * @return API response
+	 */
+	public JsonObject getJudges(Integer limit, Integer offset)
+	{
+		return getJudges(limit, offset, "testcase");
+	}
 	
 	/**
-	 * create
+	 * List of testcase judges starting from the first one
 	 *
+	 * @param {integer} limit - limit of judges to get
+	 * @return API response
+	 */
+	public JsonObject getJudges(Integer limit)
+	{
+		return getJudges(limit, 0, "testcase");
+	}
+	
+	/**
+	 * getJudges
+	 *
+	 * List of first 10 testcase judges starting from the first one
+	 * 
+	 * @return API response
+	 */
+	public JsonObject getJudges()
+	{
+		return getJudges(10, 0, "testcase");
+	}
+	
+	/**
 	 * Create a new judge
 	 *
-	 * @param string source source code (required)
-	 * @param int compiler Compiler ID, default: 1 (C++) (optional)
-	 * @param string type Judge type, testcase|master, default: testcase (optional)
-	 * @param string name Judge name, default: empty (optional)
-	 * 
-	 * @return JsonObject
+	 * @param {string} source - source code
+	 * @param {integer} compiler - Compiler ID
+	 * @param {string} type - Judge type, enum: testcase|master
+	 * @param {string} name - Judge name
+	 * @return API response
 	 */
-	public JsonObject createJudge(String source, Integer compiler=1, String type="testcase", String name="")
+	public JsonObject createJudge(String source, Integer compiler, String type, String name)
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
 
-		// setting default values
-		compiler = (compiler != null) ? compiler : 1;
-		type = (type != null) ? type : "testcase";
-		name = (name != null) ? name : "";
-
 		postParams.put("source", source);
-		postParams.put("compilerId", Integer.toString(compiler));
+		postParams.put("compilerId", compiler.toString());
 		postParams.put("type", type);
 		postParams.put("name", name);
 
-		return apiClient.callApi('/judges', 'POST', null, null, postParams, null, null);
+		return apiClient.callApi("/judges", "POST", null, null, postParams, null, null);
+	}
+	
+	/**
+	 * Create a new judge with empty name
+	 *
+	 * @param {string} source - source code
+	 * @param {integer} compiler - Compiler ID
+	 * @param {string} type - Judge type, enum: testcase|master
+	 * @return API response
+	 */
+	public JsonObject createJudge(String source, Integer compiler, String type)
+	{
+		return createJudge(source, compiler, type, "");
+	}
+	
+	/**
+	 * Create a new testcase judge with empty name
+	 *
+	 * @param {string} source - source code
+	 * @param {integer} compiler - Compiler ID
+	 * @return API response
+	 */
+	public JsonObject createJudge(String source, Integer compiler)
+	{
+		return createJudge(source, compiler, "testcase", "");
+	}
+
+	/**
+	 * Create a new C++ testcase judge with empty name
+	 *
+	 * @param {string} source - source code
+	 * @return API response
+	 */
+	public JsonObject createJudge(String source)
+	{
+		return createJudge(source, 1, "testcase", "");
+	}
+	
+	/**
+	 * Get judge details
+	 *
+	 * @param {integer} id - Judge ID
+	 * @return API response
+	 */
+	public JsonObject getJudge(Integer id)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		
+		urlParams.put("id", Integer.toString(id));
+		
+		return apiClient.callApi("/judges/{id}", "GET", urlParams, null, null, null, null);
+	}
+	
+	/**
+	 * Update judge
+	 *
+	 * @param {integer} id - Judge ID
+	 * @param {string} source - source code (optional, put null if you don't want to update)
+	 * @param {integer} compiler - Compiler ID (optional, put null if you don't want to update)
+	 * @param {string} name - Judge name (optional, put null if you don't want to update)
+	 * @return API response
+	 */
+	public JsonObject updateJudge(Integer id, String source, Integer compiler, String name)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		Map<String, String> postParams = new HashMap<String,String>();
+		
+		urlParams.put("id", Integer.toString(id));
+
+		if (source != null) postParams.put("source", source);
+		if (compiler != null) postParams.put("compilerId", compiler.toString());
+		if (name != null) postParams.put("name", name);
+		 
+		return apiClient.callApi("/judges/{id}", "PUT", urlParams, null, postParams, null, null);
+	}
+	
+	/**
+	 * List of problems
+	 *
+	 * @param {integer} limit - limit of problems to get
+	 * @param {integer} offset - offset
+	 * @return API response
+	 */
+	public JsonObject getProblems(Integer limit, Integer offset)
+	{
+		Map<String, String> queryParams = new HashMap<String,String>();
+		
+		queryParams.put("limit", limit.toString());
+		queryParams.put("offset", offset.toString());
+		
+		return apiClient.callApi("/problems", "GET", null, queryParams, null, null, null);
+	}
+	
+	/**
+	 * List of problems starting from the first one
+	 *
+	 * @param {integer} limit - limit of problems to get
+	 * @return API response
+	 */
+	public JsonObject getProblems(Integer limit)
+	{
+		return getProblems(limit, 0);
+	}
+	
+	/**
+	 * List of 10 problems starting from the first one
+	 *
+	 * @return API response
+	 */
+	public JsonObject getProblems()
+	{
+		return getProblems(10, 0);
+	}
+
+	
+	/**
+	 * Create a new problem
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name
+	 * @param {string} body - Problem body
+	 * @param {string} type - Problem type, enum: binary|min|max
+	 * @param {boolean} interactive - interactive problem flag
+	 * @param {integer} masterjudge - Masterjudge ID
+	 * @return API response
+	 */
+	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge)
+	{
+		Map<String, String> postParams = new HashMap<String,String>();
+		
+		postParams.put("code", code);
+		postParams.put("name", name);
+		postParams.put("body", body);
+		postParams.put("type", type);
+		postParams.put("interactive", (interactive) ? "1" : "0");
+		postParams.put("masterjudgeId", masterjudge.toString());
+		
+		return apiClient.callApi("/problems", "POST", null, null, postParams, null, null);
+	}
+	
+	/**
+	 * Create a new problem for masterjudge = 1001
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name
+	 * @param {string} body - Problem body
+	 * @param {string} type - Problem type, enum: binary|min|max
+	 * @param {boolean} interactive - interactive problem flag
+	 * @return API response
+	 */
+	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive)
+	{
+		return createProblem(code, name, body, type, interactive, 1001);
+	}
+	
+	/**
+	 * Create a new not interactive problem for masterjudge = 1001
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name
+	 * @param {string} body - Problem body
+	 * @param {string} type - Problem type, enum: binary|min|max
+	 * @return API response
+	 */
+	public JsonObject createProblem(String code, String name, String body, String type)
+	{
+		return createProblem(code, name, body, type, false, 1001);
+	}
+	
+	/**
+	 * Create a new not interactive binary problem for masterjudge = 1001
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name
+	 * @param {string} body - Problem body
+	 * @return API response
+	 */
+	public JsonObject createProblem(String code, String name, String body)
+	{
+		return createProblem(code, name, body, "binary", false, 1001);
+	}
+	
+	/**
+	 * Create a new not interactive binary empty problem for masterjudge = 1001
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name
+	 * @return API response
+	 */
+	public JsonObject createProblem(String code, String name)
+	{
+		return createProblem(code, name, "", "binary", false, 1001);
+	}
+	
+	/**
+	 * Retrieve an existing problem
+	 *
+	 * @param {string} code - Problem code
+	 * @return API response
+	 */
+	public JsonObject getProblem(String code)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		
+		urlParams.put("code", code);
+
+		return apiClient.callApi("/problems/{code}", "GET", urlParams, null, null, null, null);
+	}
+	
+	/**
+	 * Update an existing problem
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name (optional, put null if you don't want to update)
+	 * @param {string} body - Problem body (optional, put null if you don't want to update)
+	 * @param {string} type - Problem type, enum: binary|min|max (optional, put null if you don't want to update)
+	 * @param {boolean} interactive - interactive problem flag (optional, put null if you don't want to update)
+	 * @param {integer} masterjudge - Masterjudge ID (optional, put null if you don't want to update)
+	 * @param {integer[]} activeTestcases list of active testcases IDs (optional, put null if you don't want to update)
+	 * @return API response
+	 */
+	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge, Integer[] activeTestcases)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		Map<String, String> postParams = new HashMap<String,String>();
+		
+		urlParams.put("code", code);
+
+		
+		if (name != null) postParams.put("name", name);
+		
+		if (name != null) postParams.put("name", name);
+		if (body != null) postParams.put("body", body);
+		if (type != null) postParams.put("type", type);
+		if (interactive != null) postParams.put("interactive", (interactive) ? "1" : "0");
+		if (masterjudge != null) postParams.put("masterjudgeId", masterjudge.toString());
+		if (activeTestcases != null) postParams.put("activeTestcases", 
+				Arrays.toString(activeTestcases).split("[\\[\\]]")[1].replace(" ", ""));
+	
+		return apiClient.callApi("/problems/{code}", "PUT", urlParams, null, postParams, null, null);
 	}
 }
-//	
-//	/**
-//	 * get
-//	 *
-//	 * Get judge details
-//	 *
-//	 * @param int id Judge ID (required)
-//	 * @return JsonObject
-//	 */
-//	public JsonObject getJudge(id)
-//	{
-//		urlParams = [
-//				'id' => id
-//		];
-//		return apiClient.callApi('/judges/{id}', 'GET', urlParams, null, null, null);
-//	}
-//	
-//	/**
-//	 * update
-//	 *
-//	 * Update judge
-//	 *
-//	 * @param int id Judge ID (required)
-//	 * @param string source source code (optional)
-//	 * @param int compiler Compiler ID (optional)
-//	 * @param string name Judge name (optional)
-//	 * 
-//	 * @return void
-//	 */
-//	public JsonObject updateJudge(id, source=null, compiler=null, name=null)
-//	{
-//		urlParams = [
-//				'id' => id
-//		];
-//		postParams = [];
-//		if (isset(source)) postParams['source'] = source;
-//		if (isset(compiler)) postParams['compilerId'] = compiler;
-//		if (isset(name)) postParams['name'] = name;
-//		 
-//		return apiClient.callApi('/judges/{id}', 'PUT', urlParams, null, postParams, null);
-//	}
-//	
-//	/**
-//	 * all
-//	 *
-//	 * List of all problems
-//	 *
-//	 * @param int limit limit of problems to get, default: 10, max: 100 (optional)
-//	 * @param int offset offset, default: 0 (optional)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject getProblems(limit=10, offset=0)
-//	{
-//		queryParams = [
-//				'limit' => limit,
-//				'offset' => offset
-//		];
-//		return apiClient.callApi('/problems', 'GET', null, queryParams, null, null);
-//	}
-//	
-//	/**
-//	 * create
-//	 *
-//	 * Create a new problem
-//	 *
-//	 * @param string code Problem code (required)
-//	 * @param string name Problem name (required)
-//	 * @param string body Problem body (optional)
-//	 * @param string type Problem type, enum: binary|min|max, default: binary (optional)
-//	 * @param bool interactive interactive problem flag, default: 0 (optional)
-//	 * @param int masterjudge_id Masterjudge ID, default: 1001 (i.e. Score is % of correctly solved testcases) (optional)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject createProblem(code, name, body="", type="binary", interactive=0, masterjudgeId=1001)
-//	{
-//		postParams = [
-//				'code' => code,
-//				'name' => name,
-//				'body' => body,
-//				'type' => type,
-//				'interactive' => interactive,
-//				'masterjudgeId' => masterjudgeId
-//		];
-//		return apiClient.callApi('/problems', 'POST', null, null, postParams, null);
-//	}
-//	
-//	/**
-//	 * get
-//	 *
-//	 * Retrieve an existing problem
-//	 *
-//	 * @param string code Problem code (required)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject getProblem(code)
-//	{
-//		urlParams = [
-//				'code' => code
-//		];
-//		return apiClient.callApi('/problems/{code}', 'GET', urlParams, null, null, null);
-//	}
-//	
-//	/**
-//	 * update
-//	 *
-//	 * Update an existing problem
-//	 *
-//	 * @param string code Problem code (required)
-//	 * @param string name Problem name (optional)
-//	 * @param string body Problem body (optional)
-//	 * @param string type Problem type, enum: binary|min|max, default: binary (optional)
-//	 * @param bool interactive interactive problem flag (optional)
-//	 * @param int masterjudgeId Masterjudge ID (optional)
-//	 * @param int[] activeTestcases list of active testcases IDs (optional)
-//	 * @return void
-//	 */
-//	public JsonObject updateProblem(code, name=null, body=null, type=null, interactive=null, masterjudgeId=null, activeTestcases=null)
-//	{
-//		urlParams = [
-//				'code' => code
-//		];
-//		postParams = [];
-//		if (isset(name)) postParams['name'] = name;
-//		if (isset(body)) postParams['body'] = body;
-//		if (isset(type)) postParams['type'] = type;
-//		if (isset(interactive)) postParams['interactive'] = interactive;
-//		if (isset(masterjudgeId)) postParams['masterjudgeId'] = masterjudgeId;
-//		if (isset(activeTestcases) && is_array(activeTestcases)) postParams['activeTestcases'] = implode(',', activeTestcases);
-//	
-//		return apiClient.callApi('/problems/{code}', 'PUT', urlParams, null, postParams, null);
-//	}
 //	
 //	/**
 //	 * updateActiveTestcases

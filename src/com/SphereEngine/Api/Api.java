@@ -16,46 +16,67 @@ public class Api
 {
     
     /**
-     * Compilers module
-     * @param SphereEngine.Api.Compilers instance of the Compilers
+     * Instance of the Compilers 
      */
     private Compilers compilers = null;
     
     /**
-     * Problems module
-     * @param SphereEngine.Api.Problems instance of the Problems
+     * Instance of the Problems Module 
      */
     private Problems problems = null;
     
-    private String accessToken = null;
-    private String version = null;
-    private String endpoint = null;
+    /**
+     * Instance of API Settings
+     */
+    private Settings settings = null;
 
-    public Api(String accessToken, String version, String endpoint)
+    /**
+     * Constructor
+     * 
+     * @param {Settings} settings - API settings
+     */
+    public Api(Settings settings)
     {
-        this.accessToken = accessToken;
-        this.version = version;
-        this.endpoint = endpoint;
+        this.settings = settings;
+    }
+    
+    /**
+     * Setter for settings.
+     * 
+     * @param {Settings} settings - API settings
+     * @return The API object
+     */
+    public Api setSettings(Settings settings)
+    {
+    	this.settings = settings;
+    	this.compilers = null;
+    	this.problems = null;
+    	
+    	return this;
     }
 
     /**
-     * @return SphereEngine.Api.Compilers compilers module client
+     * Retrieve Compilers Module client
+     * 
+     * @return Compilers Module client
      */
     public Compilers getCompilersClient()
     {
         if (compilers == null) {
-            compilers = new Compilers(accessToken, version, endpoint);
+            compilers = new Compilers(settings);
         }
         return compilers;
     }
 
     /**
-     * @return SphereEngine.Api.Problems problems module client
+     * Retrieve Problems Module client
+     * 
+     * @return Problems Module client
      */
     public Problems getProblemsClient()
     {
         if (problems == null) {
-            problems = new Problems(accessToken, version, endpoint);
+            problems = new Problems(settings);
         }
         return problems;
     }
