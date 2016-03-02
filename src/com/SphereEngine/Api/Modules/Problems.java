@@ -375,188 +375,269 @@ public class Problems
 		Map<String, String> postParams = new HashMap<String,String>();
 		
 		urlParams.put("code", code);
-
-		
-		if (name != null) postParams.put("name", name);
 		
 		if (name != null) postParams.put("name", name);
 		if (body != null) postParams.put("body", body);
 		if (type != null) postParams.put("type", type);
 		if (interactive != null) postParams.put("interactive", (interactive) ? "1" : "0");
 		if (masterjudge != null) postParams.put("masterjudgeId", masterjudge.toString());
-		if (activeTestcases != null) postParams.put("activeTestcases", 
-				Arrays.toString(activeTestcases).split("[\\[\\]]")[1].replace(" ", ""));
+		if (activeTestcases != null) {
+			if (activeTestcases.length > 0) {
+				postParams.put("activeTestcases", 
+						Arrays.toString(activeTestcases).split("[\\[\\]]")[1].replace(" ", ""));
+			} else {
+				postParams.put("activeTestcases", "");
+			}
+		}
 	
 		return apiClient.callApi("/problems/{code}", "PUT", urlParams, null, postParams, null, null);
 	}
+	
+	/**
+	 * Update active testcases related to the problem
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer[]} activeTestcases - Active testcases
+	 * @return API response
+	 */
+	public JsonObject updateProblemActiveTestcases(String problemCode, Integer[] activeTestcases)
+	{
+		return updateProblem(problemCode, null, null, null, null, null, activeTestcases);
+	}
+	
+	/**
+	 * Retrieve list of Problem testcases
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @return API response
+	 */
+	public JsonObject getProblemTestcases(String problemCode)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		
+		urlParams.put("problemCode", problemCode);
+		
+		return apiClient.callApi("/problems/{problemCode}/testcases", "GET", urlParams, null, null, null, null);
+	}
+	
+	/**
+	 * Create a problem testcase
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} input - input data
+	 * @param {string} output - output data
+	 * @param {double} timelimit - time limit in seconds
+	 * @param {integer} judgeId - Judge ID
+	 * @param {boolean} active - activate test
+	 * @return API response
+	 */
+	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit, Integer judgeId, Boolean active)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		Map<String, String> postParams = new HashMap<String,String>();
+		
+		urlParams.put("problemCode", problemCode);
+		
+		postParams.put("input", input);
+		postParams.put("output", output);
+		postParams.put("timelimit", timelimit.toString());
+		postParams.put("judgeId", judgeId.toString());
+		postParams.put("active",  (active) ? "1" : "0");
+
+		return apiClient.callApi("/problems/{problemCode}/testcases", "POST", urlParams, null, postParams, null, null);
+	}
+	
+	/**
+	 * Create an active problem testcase
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} input - input data
+	 * @param {string} output - output data
+	 * @param {double} timelimit - time limit in seconds
+	 * @param {integer} judgeId - Judge ID
+	 * @return API response
+	 */
+	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit, Integer judgeId)
+	{
+		return createProblemTestcase(problemCode, input, output, timelimit, judgeId, true);
+	}
+	
+	/**
+	 * Create an active problem testcase with Ignore extra whitespaces judge (judgeId = 1)
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} input - input data
+	 * @param {string} output - output data
+	 * @param {double} timelimit - time limit in seconds
+	 * @return API response
+	 */
+	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit)
+	{
+		return createProblemTestcase(problemCode, input, output, timelimit, 1, true);
+	}
+	
+	/**
+	 * Create an active problem testcase with Ignore extra whitespaces judge (judgeId = 1) and timelimit 1 second
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} input - input data
+	 * @param {string} output - output data
+	 * @return API response
+	 */
+	public JsonObject createProblemTestcase(String problemCode, String input, String output)
+	{
+		return createProblemTestcase(problemCode, input, output, 1.0, 1, true);
+	}
+	
+	/**
+	 * Create an active problem testcase with Ignore extra whitespaces judge (judgeId = 1), 
+	 * timelimit 1 second and empty model output
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} input - input data
+	 * @return API response
+	 */
+	public JsonObject createProblemTestcase(String problemCode, String input)
+	{
+		return createProblemTestcase(problemCode, input, "", 1.0, 1, true);
+	}
+	
+	/**
+	 * Create an active problem testcase with Ignore extra whitespaces judge (judgeId = 1), 
+	 * timelimit 1 second, empty model output and empty model input 
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @return API response
+	 */
+	public JsonObject createProblemTestcase(String problemCode)
+	{
+		return createProblemTestcase(problemCode, "", "", 1.0, 1, true);
+	}
+	
+	/**
+	 * Retrieve problem testcase
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer} number - Testcase number
+	 * @return API response
+	 */
+	public JsonObject getProblemTestcase(String problemCode, Integer number)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		
+		urlParams.put("problemCode", problemCode);
+		urlParams.put("number", number.toString());
+		
+		return apiClient.callApi("/problems/{problemCode}/testcases/{number}", "GET", urlParams, null, null, null, null);
+	}
+	
+	/**
+	 * Update the problem testcase
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer} number - Testcase number
+	 * @param {string} input - input data
+	 * @param {string} output - output data
+	 * @param {double} timelimit - time limit in seconds
+	 * @param {integer} judgeId - Judge ID
+	 * @return API response
+	 */
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		Map<String, String> postParams = new HashMap<String,String>();
+		
+		urlParams.put("problemCode", problemCode);
+		urlParams.put("number", number.toString());
+		
+		if (input != null) postParams.put("input", input);
+		if (output != null) postParams.put("output", output);
+		if (timelimit != null) postParams.put("timelimit", timelimit.toString());
+		if (judgeId != null) postParams.put("judgeId", judgeId.toString());
+		 
+		return apiClient.callApi("/problems/{problemCode}/testcases/{number}", "PUT", urlParams, null, postParams, null, null);
+	}
+	
+	/**
+	 * Retrieve Problem testcase file
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer} number - Testcase number
+	 * @param {string} filename - stream name, enum: input|output
+	 * @return file content
+	 */
+	public String getProblemTestcaseFile(String problemCode, Integer number, String filename)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		
+		urlParams.put("problemCode", problemCode);
+		urlParams.put("number", number.toString());
+		urlParams.put("filename", filename);
+		
+		return apiClient.
+				callApi("/problems/{problemCode}/testcases/{number}/{filename}", "GET", urlParams, null, null, null, "file")
+				.get("file_content")
+				.getAsString();
+	}
+	
+	/**
+	 * Create a new submission
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} source - source code
+	 * @param {integer} compiler - Compiler ID
+	 * @param {integer} user - User ID
+	 * @return API response
+	 */
+	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user)
+	{
+		Map<String, String> postParams = new HashMap<String,String>();
+		
+		postParams.put("problemCode", problemCode);
+		postParams.put("compilerId", compiler.toString());
+		postParams.put("source", source);
+		if (user != null) postParams.put("userId", user.toString());
+		
+		return apiClient.callApi("/submissions", "POST", null, null, postParams, null, null);
+	}
+	
+	/**
+	 * Create a new submission with default user
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} source - source code
+	 * @param {integer} compiler - Compiler ID
+	 * @return API response
+	 */
+	public JsonObject createSubmission(String problemCode, String source, Integer compiler)
+	{
+		return createSubmission(problemCode, source, compiler, null);
+	}
+	
+	/**
+	 * Create a new C++ submission with default user
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} source - source code
+	 * @return API response
+	 */
+	public JsonObject createSubmission(String problemCode, String source)
+	{
+		return createSubmission(problemCode, source, 1, null);
+	}
+	
+	/**
+	 * Fetch submission details
+	 *
+	 * @param {integer} id - Submission ID
+	 * @return API response
+	 */
+	public JsonObject getSubmission(Integer id)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		
+		urlParams.put("id", id.toString());
+		
+		return apiClient.callApi("/submissions/{id}", "GET", urlParams, null, null, null, null);
+	}
 }
-//	
-//	/**
-//	 * updateActiveTestcases
-//	 *
-//	 * Update active testcases related to the problem
-//	 *
-//	 * @param string problemCode Problem code (required)
-//	 * @param int[] activeTestcases Active testcases (required)
-//	 * @return void
-//	 */
-//	public JsonObject updateProblemActiveTestcases(problemCode, activeTestcases)
-//	{
-//		return update(problemCode, null, null, null, null, null, activeTestcases);
-//	}
-//	
-//	/**
-//	 * allTestcases
-//	 *
-//	 * Retrieve list of Problem testcases
-//	 *
-//	 * @param string problemCode Problem code (required)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject getProblemTestcases(problemCode)
-//	{
-//		urlParams = [
-//				'problemCode' => problemCode
-//		];
-//		return apiClient.callApi('/problems/{problemCode}/testcases', 'GET', urlParams, null, null, null);
-//	}
-//	
-//	/**
-//	 * createTestcase
-//	 *
-//	 * Create a problem testcase
-//	 *
-//	 * @param string problemCode Problem code (required)
-//	 * @param string input input data, default: empty (optional)
-//	 * @param string output output data, default: empty (optional)
-//	 * @param float timelimit time limit in seconds, default: 1 (optional)
-//	 * @param int judgeId Judge ID, default: 1 (Ignore extra whitespaces) (optional)
-//	 * @param bool active if test should be active, default: true (optional)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject createProblemTestcase(problemCode, input="", output="", timelimit=1, judgeId=1, active=true)
-//	{
-//		urlParams = [
-//				'problemCode' => problemCode
-//		];
-//		postParams = [
-//				'input' => input,
-//				'output' => output,
-//				'timelimit' => timelimit,
-//				'judgeId' => judgeId,
-//				'active' => active
-//		];
-//		return apiClient.callApi('/problems/{problemCode}/testcases', 'POST', urlParams, null, postParams, null);
-//	}
-//	
-//	/**
-//	 * getTestcase
-//	 *
-//	 * Retrieve problem testcase
-//	 *
-//	 * @param string problemCode Problem code (required)
-//	 * @param int number Testcase number (required)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject getProblemTestcase(problemCode, number)
-//	{
-//		urlParams = [
-//				'problemCode' => problemCode,
-//				'number' => number
-//		];
-//		return apiClient.callApi('/problems/{problemCode}/testcases/{number}', 'GET', urlParams, null, null, null);
-//	}
-//	
-//	/**
-//	 * updateTestcase
-//	 *
-//	 * Update the problem testcase
-//	 *
-//	 * @param string problemCode Problem code (required)
-//	 * @param int number Testcase number (required)
-//	 * @param string input input data (optional)
-//	 * @param string output output data (optional)
-//	 * @param float timelimit time limit in seconds (optional)
-//	 * @param int judgeId Judge ID (optional)
-//	 * 
-//	 * @return void
-//	 */
-//	public JsonObject updateProblemTestcase(problemCode, number, input=null, output=null, timelimit=null, judgeId=null)
-//	{
-//		urlParams = [
-//				'problemCode' => problemCode,
-//				'number' => number
-//		];
-//		postParams = [];
-//		if (isset(input)) postParams['input'] = input;
-//		if (isset(output)) postParams['output'] = output;
-//		if (isset(timelimit)) postParams['timelimit'] = timelimit;
-//		if (isset(judgeId)) postParams['judgeId'] = judgeId;
-//		 
-//		return apiClient.callApi('/problems/{problemCode}/testcases/{number}', 'PUT', urlParams, null, postParams, null);
-//	}
-//	
-//	/**
-//	 * getTestcaseFile
-//	 *
-//	 * Retrieve Problem testcase file
-//	 *
-//	 * @param string problemCode Problem code (required)
-//	 * @param int number Testcase number (required)
-//	 * @param string filename stream name (required)
-//	 * 
-//	 * @return file
-//	 */
-//	public JsonObject getProblemTestcaseFile(problemCode, number, filename)
-//	{
-//		urlParams = [
-//				'problemCode' => problemCode,
-//				'number' => number,
-//				'filename' => filename
-//		];
-//		return apiClient.callApi('/problems/{problemCode}/testcases/{number}/{filename}', 'GET', urlParams, null, null, null, 'file');
-//	}
-//	
-//	/**
-//	 * create
-//	 *
-//	 * Create a new submission
-//	 *
-//	 * @param string problemCode Problem code (required)
-//	 * @param string source source code (required)
-//	 * @param int compiler Compiler ID (required)
-//	 * @param int user User ID, default: account owner user (optional)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject createSubmission(problemCode, source, compiler, user=null)
-//	{
-//		postParams = [
-//				'problemCode' => problemCode,
-//				'compilerId' => compiler,
-//				'source' => source
-//		];
-//		if (user != null) postParams['userId'] = user;
-//		return apiClient.callApi('/submissions', 'POST', null, null, postParams, null);
-//	}
-//	
-//	/**
-//	 * get
-//	 *
-//	 * Fetch submission details
-//	 *
-//	 * @param string id Submission ID (required)
-//	 * 
-//	 * @return JsonObject
-//	 */
-//	public JsonObject getSubmission(id)
-//	{
-//		urlParams = [
-//				'id' => id
-//		];
-//		return apiClient.callApi('/submissions/{id}', 'GET', urlParams, null, null, null);
-//	}
-//}

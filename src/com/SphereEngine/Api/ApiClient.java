@@ -105,7 +105,15 @@ public class ApiClient
 		}
 		
 		JsonParser parser = new JsonParser();
-		JsonObject result = parser.parse(response).getAsJsonObject();
+		JsonObject result = new JsonObject();
+		
+		if ("file".equals(responseType)) {
+			result.addProperty("file_content", response);
+		} else if (! "PUT".equals(method)) {
+			result = parser.parse(response).getAsJsonObject();
+		} else {
+			// empty JSON for PUT methods
+		}
 		
 		return result;
 	}
