@@ -1,3 +1,5 @@
+import javax.ws.rs.NotFoundException;
+
 import com.SphereEngine.Api.Api;
 import com.SphereEngine.Api.Settings;
 import com.SphereEngine.Api.Modules.Compilers;
@@ -18,6 +20,11 @@ public class Program
 		Compilers c_client = api.getCompilersClient();
 		Problems p_client = api.getProblemsClient();
 		
+//		System.out.println(p_client.createJudge("SRL JAVA JUDGE", 1, "", "SRL JAVA JUDGE"));
+//		System.out.println(p_client.updateJudge(1158, "SRL JAVA JUDGE UPDATE", 11, "aa"));
+//		System.out.println(p_client.getJudge(1158));
+		
+//		System.out.println(c_client.test());
 //		System.out.println(c_client.createSubmission("#include <stdio.h>\n int main() { printf(\"test\"); return 0; }", 1, "a"));
 //		System.out.println(c_client.getSubmission(43808992, true, true, true, true, true));
 //		System.out.println(p_client.createSubmission(problemCode, source));
@@ -35,7 +42,12 @@ public class Program
 //		System.out.println(p_client.getProblemTestcaseFile("SRL_JAVA_TEST2", 0, "output"));
 //		System.out.println(p_client.getProblemTestcaseFile("SRL_JAVA_TEST2", 0, "judge"));
 //		System.out.println(p_client.createSubmission("SRL_JAVA_TEST2", "#include <stdio.h>\n int main() { printf(\"test\"); return 0;}", 11));
-//		System.out.println(p_client.getSubmission(46368));
+		
+//		try {
+//		System.out.println(p_client.getSubmission(146368));
+//		} catch (NotFoundException e) {
+//			System.out.println(e);
+//		}
 		
 		
 //		System.out.println(c_client.test().toString());
@@ -52,5 +64,4 @@ public class Program
 //		System.out.println(c_client.getSubmission("43339806", "1", "1", null, null, null).toString());
 //		System.out.println(c_client.createSubmission("b", "11", "").toString());
 	}
-	
 }

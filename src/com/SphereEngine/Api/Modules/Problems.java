@@ -59,15 +59,18 @@ public class Problems
 	/**
 	 * Test method
 	 *
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject test()
 	{
 		return apiClient.callApi("/test", "GET", null, null, null, null, null);
 	}
+	
 	/**
 	 * List of all compilers
 	 *
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */	
 	public JsonObject getCompilers()
@@ -81,6 +84,7 @@ public class Problems
 	 * @param {integer} limit - limit of judges to get
 	 * @param {integer} offset  - offset
 	 * @param {string} type - Judge type, enum: testcase|master
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getJudges(Integer limit, Integer offset, String type)
@@ -99,6 +103,7 @@ public class Problems
 	 *
 	 * @param {integer} limit - limit of judges to get
 	 * @param {integer} offset - offset
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getJudges(Integer limit, Integer offset)
@@ -110,6 +115,7 @@ public class Problems
 	 * List of testcase judges starting from the first one
 	 *
 	 * @param {integer} limit - limit of judges to get
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getJudges(Integer limit)
@@ -118,10 +124,9 @@ public class Problems
 	}
 	
 	/**
-	 * getJudges
-	 *
 	 * List of first 10 testcase judges starting from the first one
 	 * 
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getJudges()
@@ -136,6 +141,9 @@ public class Problems
 	 * @param {integer} compiler - Compiler ID
 	 * @param {string} type - Judge type, enum: testcase|master
 	 * @param {string} name - Judge name
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty source code
+	 * @throws NotFoundException for non existing compiler
 	 * @return API response
 	 */
 	public JsonObject createJudge(String source, Integer compiler, String type, String name)
@@ -156,6 +164,9 @@ public class Problems
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
 	 * @param {string} type - Judge type, enum: testcase|master
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty source code
+	 * @throws NotFoundException for non existing compiler
 	 * @return API response
 	 */
 	public JsonObject createJudge(String source, Integer compiler, String type)
@@ -168,6 +179,9 @@ public class Problems
 	 *
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty source code
+	 * @throws NotFoundException for non existing compiler
 	 * @return API response
 	 */
 	public JsonObject createJudge(String source, Integer compiler)
@@ -179,6 +193,8 @@ public class Problems
 	 * Create a new C++ testcase judge with empty name
 	 *
 	 * @param {string} source - source code
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty source code
 	 * @return API response
 	 */
 	public JsonObject createJudge(String source)
@@ -190,6 +206,8 @@ public class Problems
 	 * Get judge details
 	 *
 	 * @param {integer} id - Judge ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing judge
 	 * @return API response
 	 */
 	public JsonObject getJudge(Integer id)
@@ -208,6 +226,10 @@ public class Problems
 	 * @param {string} source - source code (optional, put null if you don't want to update)
 	 * @param {integer} compiler - Compiler ID (optional, put null if you don't want to update)
 	 * @param {string} name - Judge name (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing judge
+	 * @throws NotFoundException for non existing compiler
+	 * @throws BadRequestException for empty source code
 	 * @return API response
 	 */
 	public JsonObject updateJudge(Integer id, String source, Integer compiler, String name)
@@ -229,6 +251,7 @@ public class Problems
 	 *
 	 * @param {integer} limit - limit of problems to get
 	 * @param {integer} offset - offset
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getProblems(Integer limit, Integer offset)
@@ -245,6 +268,7 @@ public class Problems
 	 * List of problems starting from the first one
 	 *
 	 * @param {integer} limit - limit of problems to get
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getProblems(Integer limit)
@@ -255,13 +279,13 @@ public class Problems
 	/**
 	 * List of 10 problems starting from the first one
 	 *
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getProblems()
 	{
 		return getProblems(10, 0);
 	}
-
 	
 	/**
 	 * Create a new problem
@@ -272,6 +296,12 @@ public class Problems
 	 * @param {string} type - Problem type, enum: binary|min|max
 	 * @param {boolean} interactive - interactive problem flag
 	 * @param {integer} masterjudge - Masterjudge ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @throws BadRequestException for not unique problem code
+	 * @throws BadRequestException for invalid problem code
+	 * @throws NotFoundException for non existing masterjudge
 	 * @return API response
 	 */
 	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge)
@@ -296,6 +326,11 @@ public class Problems
 	 * @param {string} body - Problem body
 	 * @param {string} type - Problem type, enum: binary|min|max
 	 * @param {boolean} interactive - interactive problem flag
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @throws BadRequestException for not unique problem code
+	 * @throws BadRequestException for invalid problem code
 	 * @return API response
 	 */
 	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive)
@@ -310,6 +345,11 @@ public class Problems
 	 * @param {string} name - Problem name
 	 * @param {string} body - Problem body
 	 * @param {string} type - Problem type, enum: binary|min|max
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @throws BadRequestException for not unique problem code
+	 * @throws BadRequestException for invalid problem code
 	 * @return API response
 	 */
 	public JsonObject createProblem(String code, String name, String body, String type)
@@ -323,6 +363,11 @@ public class Problems
 	 * @param {string} code - Problem code
 	 * @param {string} name - Problem name
 	 * @param {string} body - Problem body
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @throws BadRequestException for not unique problem code
+	 * @throws BadRequestException for invalid problem code
 	 * @return API response
 	 */
 	public JsonObject createProblem(String code, String name, String body)
@@ -335,6 +380,11 @@ public class Problems
 	 *
 	 * @param {string} code - Problem code
 	 * @param {string} name - Problem name
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @throws BadRequestException for not unique problem code
+	 * @throws BadRequestException for invalid problem code
 	 * @return API response
 	 */
 	public JsonObject createProblem(String code, String name)
@@ -346,6 +396,8 @@ public class Problems
 	 * Retrieve an existing problem
 	 *
 	 * @param {string} code - Problem code
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
 	public JsonObject getProblem(String code)
@@ -367,6 +419,11 @@ public class Problems
 	 * @param {boolean} interactive - interactive problem flag (optional, put null if you don't want to update)
 	 * @param {integer} masterjudge - Masterjudge ID (optional, put null if you don't want to update)
 	 * @param {integer[]} activeTestcases list of active testcases IDs (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing masterjudge
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
 	 * @return API response
 	 */
 	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge, Integer[] activeTestcases)
@@ -398,6 +455,9 @@ public class Problems
 	 *
 	 * @param {string} problemCode - Problem code
 	 * @param {integer[]} activeTestcases - Active testcases
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws BadRequestException for empty problem code
 	 * @return API response
 	 */
 	public JsonObject updateProblemActiveTestcases(String problemCode, Integer[] activeTestcases)
@@ -409,6 +469,8 @@ public class Problems
 	 * Retrieve list of Problem testcases
 	 *
 	 * @param {string} problemCode - Problem code
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
 	public JsonObject getProblemTestcases(String problemCode)
@@ -429,6 +491,9 @@ public class Problems
 	 * @param {double} timelimit - time limit in seconds
 	 * @param {integer} judgeId - Judge ID
 	 * @param {boolean} active - activate test
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing judge
 	 * @return API response
 	 */
 	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit, Integer judgeId, Boolean active)
@@ -455,6 +520,9 @@ public class Problems
 	 * @param {string} output - output data
 	 * @param {double} timelimit - time limit in seconds
 	 * @param {integer} judgeId - Judge ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing judge
 	 * @return API response
 	 */
 	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit, Integer judgeId)
@@ -469,6 +537,8 @@ public class Problems
 	 * @param {string} input - input data
 	 * @param {string} output - output data
 	 * @param {double} timelimit - time limit in seconds
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
 	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit)
@@ -482,6 +552,8 @@ public class Problems
 	 * @param {string} problemCode - Problem code
 	 * @param {string} input - input data
 	 * @param {string} output - output data
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
 	public JsonObject createProblemTestcase(String problemCode, String input, String output)
@@ -495,6 +567,8 @@ public class Problems
 	 *
 	 * @param {string} problemCode - Problem code
 	 * @param {string} input - input data
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
 	public JsonObject createProblemTestcase(String problemCode, String input)
@@ -507,6 +581,8 @@ public class Problems
 	 * timelimit 1 second, empty model output and empty model input 
 	 *
 	 * @param {string} problemCode - Problem code
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
 	public JsonObject createProblemTestcase(String problemCode)
@@ -519,6 +595,9 @@ public class Problems
 	 *
 	 * @param {string} problemCode - Problem code
 	 * @param {integer} number - Testcase number
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing testcase
 	 * @return API response
 	 */
 	public JsonObject getProblemTestcase(String problemCode, Integer number)
@@ -540,6 +619,10 @@ public class Problems
 	 * @param {string} output - output data
 	 * @param {double} timelimit - time limit in seconds
 	 * @param {integer} judgeId - Judge ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing testcase
+	 * @throws NotFoundException for non existing judge
 	 * @return API response
 	 */
 	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId)
@@ -564,6 +647,10 @@ public class Problems
 	 * @param {string} problemCode - Problem code
 	 * @param {integer} number - Testcase number
 	 * @param {string} filename - stream name, enum: input|output
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing testcase
+	 * @throws NotFoundException for non existing file
 	 * @return file content
 	 */
 	public String getProblemTestcaseFile(String problemCode, Integer number, String filename)
@@ -587,6 +674,11 @@ public class Problems
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
 	 * @param {integer} user - User ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing compiler
+	 * @throws NotFoundException for non existing user
+	 * @throws BadRequestException for empty source code
 	 * @return API response
 	 */
 	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user)
@@ -607,6 +699,10 @@ public class Problems
 	 * @param {string} problemCode - Problem code
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing compiler
+	 * @throws BadRequestException for empty source code
 	 * @return API response
 	 */
 	public JsonObject createSubmission(String problemCode, String source, Integer compiler)
@@ -619,6 +715,9 @@ public class Problems
 	 *
 	 * @param {string} problemCode - Problem code
 	 * @param {string} source - source code
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws BadRequestException for empty source code
 	 * @return API response
 	 */
 	public JsonObject createSubmission(String problemCode, String source)
@@ -630,6 +729,8 @@ public class Problems
 	 * Fetch submission details
 	 *
 	 * @param {integer} id - Submission ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing submission
 	 * @return API response
 	 */
 	public JsonObject getSubmission(Integer id)
