@@ -22,7 +22,7 @@ public class Program
 		
 //		System.out.println(p_client.createJudge("SRL JAVA JUDGE", 1, "", "SRL JAVA JUDGE"));
 //		System.out.println(p_client.updateJudge(1158, "SRL JAVA JUDGE UPDATE", 11, "aa"));
-//		System.out.println(p_client.getJudge(1158));
+		System.out.println(p_client.getJudge(1158));
 		
 //		System.out.println(c_client.test());
 //		System.out.println(c_client.createSubmission("#include <stdio.h>\n int main() { printf(\"test\"); return 0; }", 1, "a"));
