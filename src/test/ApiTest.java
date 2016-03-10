@@ -1,10 +1,12 @@
-package com.SphereEngine.Api;
+package test;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.Test;
 
+import com.SphereEngine.Api.Api;
+import com.SphereEngine.Api.Settings;
 import com.SphereEngine.Api.Modules.Compilers;
 import com.google.gson.JsonObject;
 
