@@ -52,6 +52,6 @@ public class ApiTest
 		Api api = new Api(settings);
 		Compilers c_client = api.getCompilersClient();
 		
-		assertThat(c_client.test().get("pi").getAsDouble(), is(3.13));
+		assertThat(c_client.test().get("pi").getAsDouble(), is(3.14));
 	}
 }
