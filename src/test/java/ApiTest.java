@@ -1,8 +1,12 @@
 package test.java;
 
 import static org.junit.Assert.*;
+
+import java.util.Map;
+
 import static org.hamcrest.CoreMatchers.*;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.SphereEngine.Api.Api;
@@ -12,7 +16,14 @@ import com.google.gson.JsonObject;
 
 public class ApiTest 
 {
-
+	static Map<String, String> env;
+	
+	@BeforeClass
+	static public void setUpBeforeClass()
+	{
+		env = System.getenv();
+	}
+	
 	@Test
 	public void testCompilersAutorizationFail() 
 	{
@@ -31,7 +42,7 @@ public class ApiTest
 	public void testCompilersAutorizationSuccess() 
 	{
 		Settings settings = new Settings()
-				.setCompilersAccessToken("e7a5298eaab2666705871a0d6afaef37")
+				.setCompilersAccessToken(env.get("SE_ACCESS_TOKEN_COMPILERS"))
 				.setCompilersVersion("v3")
 				.setCompilersEndpoint("robson");
 		
@@ -45,7 +56,7 @@ public class ApiTest
 	public void testCompilersTestMethodSuccess() 
 	{
 		Settings settings = new Settings()
-				.setCompilersAccessToken("e7a5298eaab2666705871a0d6afaef37")
+				.setCompilersAccessToken(env.get("SE_ACCESS_TOKEN_COMPILERS"))
 				.setCompilersVersion("v3")
 				.setCompilersEndpoint("robson");
 		

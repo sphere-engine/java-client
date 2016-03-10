@@ -1,3 +1,5 @@
+import java.util.Map;
+
 import javax.ws.rs.NotFoundException;
 
 import com.SphereEngine.Api.Api;
@@ -7,18 +9,20 @@ import com.SphereEngine.Api.Modules.Problems;
 
 public class Program 
 {
-
+	
 	public static void main(String[] args) {
+		Map<String, String> env = System.getenv();
 		Settings settings = new Settings()
-				.setCompilersAccessToken("e7a5298eaab2666705871a0d6afaef37")
+				.setCompilersAccessToken(env.get("SE_ACCESS_TOKEN_COMPILERS"))
 				.setCompilersVersion("v3")
 				.setCompilersEndpoint("robson")
-				.setProblemsAccessToken("5f0470b710157fd99a5a001955b010bb13ce7eb5")
+				.setProblemsAccessToken(env.get("SE_ACCESS_TOKEN_PROBLEMS"))
 				.setProblemsVersion("v3");
 				
 		Api api = new Api(settings);
 		Compilers c_client = api.getCompilersClient();
 		Problems p_client = api.getProblemsClient();
+		
 		
 //		System.out.println(p_client.createJudge("SRL JAVA JUDGE", 1, "", "SRL JAVA JUDGE"));
 //		System.out.println(p_client.updateJudge(1158, "SRL JAVA JUDGE UPDATE", 11, "aa"));
