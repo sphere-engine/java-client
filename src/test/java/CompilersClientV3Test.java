@@ -40,7 +40,6 @@ public class CompilersClientV3Test
 				env.get("SE_ACCESS_TOKEN_COMPILERS"), 
 				env.get("SE_ENDPOINT_COMPILERS"));
 		
-		System.out.println(client.test());
 		assertThat(client.test(), not(equalTo(new JsonObject())));
 	}
 	
