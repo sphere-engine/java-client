@@ -1,13 +1,10 @@
-package com.SphereEngine.Api.Modules;
+package com.SphereEngine.Api;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Arrays;
 
 import com.google.gson.JsonObject;
-
-import com.SphereEngine.Api.ApiClient;
-import com.SphereEngine.Api.Settings;
 
 /*
  * SphereEngine.Api.Modules.Problems
@@ -18,7 +15,7 @@ import com.SphereEngine.Api.Settings;
  * 
  * Copyright 2015 Sphere Research Sp z o.o.
  */
-public class Problems
+public class ProblemsClientV3
 {
 	/**
      * API Client
@@ -27,30 +24,36 @@ public class Problems
 	private ApiClient apiClient;
 	
 	/**
+	 * Module name of the API
+	 */
+	private String module = "problems";
+	
+	/**
+	 * Version of the API
+	 */
+	private String version = "v3";
+	
+	/**
 	 * Constructor
 	 * 
-	 * @param {Settings} settings - API settings object
+	 * @param {String} accessToken - Sphere Engine Problems access token
+	 * @param {String} endpoint - Sphere Engine Problems endpoint
 	 */
-	public Problems(Settings settings)
-	{
-		String accessToken = settings.getProblemsAccessToken();
-		String version = settings.getProblemsVersion();
-		String endpoint = settings.getProblemsEndpoint();
-		
-		apiClient = new ApiClient(accessToken, createEndpointLink(version, endpoint));
+	public ProblemsClientV3(String accessToken, String endpoint)
+	{		
+		apiClient = new ApiClient(accessToken, createEndpointLink(endpoint));
 	}
 		
 	/**
 	 * Create a complete API endpoint url
 	 * 
-	 * @param {String} version - API version
 	 * @param {String} endpoint - partial endpoint
 	 * @return Complete API endpoint url
 	 */
-	private String createEndpointLink(String version, String endpoint)
+	private String createEndpointLink(String endpoint)
 	{
-		if (endpoint == null) {
-			return "problems.sphere-engine.com/api/" + version;
+		if (!endpoint.contains(".")) {
+			return endpoint + "." + module + "." + "sphere-engine.com/api/" + version;
 		} else {
 			return endpoint + "/api/" + version;
 		}

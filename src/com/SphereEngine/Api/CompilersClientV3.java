@@ -1,12 +1,9 @@
-package com.SphereEngine.Api.Modules;
+package com.SphereEngine.Api;
 
 import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.JsonObject;
-
-import com.SphereEngine.Api.ApiClient;
-import com.SphereEngine.Api.Settings;
 
 /*
  * @author	Sphere Research Labs Sp z o.o.
@@ -15,7 +12,7 @@ import com.SphereEngine.Api.Settings;
  * 
  * Copyright 2015 Sphere Research Sp z o.o.
  */
-public class Compilers
+public class CompilersClientV3
 {
 	/**
 	 * Instance of the ApiClient 
@@ -23,32 +20,38 @@ public class Compilers
 	private ApiClient apiClient;
 	
 	/**
+	 * Module name of the API
+	 */
+	private String module = "compilers";
+	
+	/**
+	 * Version of the API
+	 */
+	private String version = "v3";
+	
+	/**
 	 * Constructor
 	 * 
-	 * @param {Settings} settings - API settings object
+	 * @param {String} accessToken - Sphere Engine Compilers access token
+	 * @param {String} endpoint - Sphere Engine Compilers endpoint
 	 */
-	public Compilers(Settings settings)
+	public CompilersClientV3(String accessToken, String endpoint)
 	{
-		String accessToken = settings.getCompilersAccessToken();
-		String version = settings.getCompilersVersion();
-		String endpoint = settings.getCompilersEndpoint();
-		
-		apiClient = new ApiClient(accessToken, createEndpointLink(version, endpoint));
+		apiClient = new ApiClient(accessToken, createEndpointLink(endpoint));
 	}
 	
 	/**
 	 * Create a complete API endpoint url
 	 * 
-	 * @param {String} version - API version
 	 * @param {String} endpoint - partial endpoint
 	 * @return Complete API endpoint url
 	 */
-	private String createEndpointLink(String version, String endpoint)
+	private String createEndpointLink(String endpoint)
 	{
-		if (endpoint == null) {
-			return "api.compilers.sphere-engine.com/api/" + version; 
+		if (!endpoint.contains(".")) {
+			return endpoint + "." + module + "." + "sphere-engine.com/api/" + version;
 		} else {
-			return endpoint + ".api.compilers.sphere-engine.com/api/" + version;
+			return endpoint + "/api/" + version;
 		}
 	}
 	
