@@ -52,4 +52,14 @@ public class CompilersClientV3Test
 		
 		assertThat(client.test().get("pi").getAsDouble(), is(3.14));
 	}
+	
+	@Test
+	public void testCompilersMethodSuccess() 
+	{
+		CompilersClientV3 client = new CompilersClientV3(
+				env.get("SE_ACCESS_TOKEN_COMPILERS"), 
+				env.get("SE_ENDPOINT_COMPILERS"));
+		
+		assertThat(client.getCompilers().get("11").getAsString().charAt(0), is('C'));
+	}
 }
