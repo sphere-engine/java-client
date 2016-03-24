@@ -1,6 +1,9 @@
 package com.SphereEngine.Api;
 
 import java.util.Map;
+
+import javax.ws.rs.BadRequestException;
+
 import java.util.HashMap;
 import java.util.Arrays;
 
@@ -230,7 +233,7 @@ public class ProblemsClientV3
 	 * @param {integer} compiler - Compiler ID (optional, put null if you don't want to update)
 	 * @param {string} name - Judge name (optional, put null if you don't want to update)
 	 * @throws NotAuthorizedException for invalid access token
-	 * @throws NotAuthorizedException for modifying foreign judge
+	 * @throws ForbiddenException for modifying foreign judge
 	 * @throws NotFoundException for non existing judge
 	 * @throws NotFoundException for non existing compiler
 	 * @throws BadRequestException for empty source code
@@ -248,6 +251,39 @@ public class ProblemsClientV3
 		if (name != null) postParams.put("name", name);
 		 
 		return apiClient.callApi("/judges/{id}", "PUT", urlParams, null, postParams, null, null);
+	}
+	
+	/**
+	 * Update judge (without: name)
+	 *
+	 * @param {integer} id - Judge ID
+	 * @param {string} source - source code (optional, put null if you don't want to update)
+	 * @param {integer} compiler - Compiler ID (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for modifying foreign judge
+	 * @throws NotFoundException for non existing judge
+	 * @throws NotFoundException for non existing compiler
+	 * @throws BadRequestException for empty source code
+	 * @return API response
+	 */
+	public JsonObject updateJudge(Integer id, String source, Integer compiler)
+	{
+		return updateJudge(id, source, compiler, null);
+	}
+	
+	/**
+	 * Update judge (without: compiler, name)
+	 *
+	 * @param {integer} id - Judge ID
+	 * @param {string} source - source code (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing judge
+	 * @throws BadRequestException for empty source code
+	 * @return API response
+	 */
+	public JsonObject updateJudge(Integer id, String source)
+	{
+		return updateJudge(id, source, null, null);
 	}
 	
 	/**
@@ -435,6 +471,10 @@ public class ProblemsClientV3
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> postParams = new HashMap<String,String>();
 		
+		if (code.equals("")) {
+			throw new BadRequestException();
+		}
+		
 		urlParams.put("code", code);
 		
 		if (name != null) postParams.put("name", name);
@@ -452,6 +492,97 @@ public class ProblemsClientV3
 		}
 	
 		return apiClient.callApi("/problems/{code}", "PUT", urlParams, null, postParams, null, null);
+	}
+	
+	/**
+	 * Update an existing problem (without: activeTestcases)
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name (optional, put null if you don't want to update)
+	 * @param {string} body - Problem body (optional, put null if you don't want to update)
+	 * @param {string} type - Problem type, enum: binary|min|max (optional, put null if you don't want to update)
+	 * @param {boolean} interactive - interactive problem flag (optional, put null if you don't want to update)
+	 * @param {integer} masterjudge - Masterjudge ID (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing masterjudge
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @return API response
+	 */
+	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge)
+	{
+		return updateProblem(code, name, body, type, interactive, masterjudge, null);
+	}
+	
+	/**
+	 * Update an existing problem (without: masterjudge, activeTestcases)
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name (optional, put null if you don't want to update)
+	 * @param {string} body - Problem body (optional, put null if you don't want to update)
+	 * @param {string} type - Problem type, enum: binary|min|max (optional, put null if you don't want to update)
+	 * @param {boolean} interactive - interactive problem flag (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @return API response
+	 */
+	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive)
+	{
+		return updateProblem(code, name, body, type, interactive, null, null);
+	}
+	
+	/**
+	 * Update an existing problem (without: interactive, masterjudge, activeTestcases)
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name (optional, put null if you don't want to update)
+	 * @param {string} body - Problem body (optional, put null if you don't want to update)
+	 * @param {string} type - Problem type, enum: binary|min|max (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @return API response
+	 */
+	public JsonObject updateProblem(String code, String name, String body, String type)
+	{
+		return updateProblem(code, name, body, type, null, null, null);
+	}
+	
+	/**
+	 * Update an existing problem (without: type, interactive, masterjudge, activeTestcases)
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name (optional, put null if you don't want to update)
+	 * @param {string} body - Problem body (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @return API response
+	 */
+	public JsonObject updateProblem(String code, String name, String body)
+	{
+		return updateProblem(code, name, body, null, null, null, null);
+	}
+	
+	/**
+	 * Update an existing problem (without: type, interactive, masterjudge, activeTestcases)
+	 *
+	 * @param {string} code - Problem code
+	 * @param {string} name - Problem name (optional, put null if you don't want to update)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws BadRequestException for empty problem code
+	 * @throws BadRequestException for empty problem name
+	 * @return API response
+	 */
+	public JsonObject updateProblem(String code, String name)
+	{
+		return updateProblem(code, name, null, null, null, null, null);
 	}
 	
 	/**
@@ -623,13 +754,14 @@ public class ProblemsClientV3
 	 * @param {string} output - output data
 	 * @param {double} timelimit - time limit in seconds
 	 * @param {integer} judgeId - Judge ID
+	 * @param {boolean} active - activate test
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @throws NotFoundException for non existing judge
 	 * @return API response
 	 */
-	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId)
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId, Boolean active)
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> postParams = new HashMap<String,String>();
@@ -641,8 +773,80 @@ public class ProblemsClientV3
 		if (output != null) postParams.put("output", output);
 		if (timelimit != null) postParams.put("timelimit", timelimit.toString());
 		if (judgeId != null) postParams.put("judgeId", judgeId.toString());
+		if (active != null) postParams.put("active",  (active) ? "1" : "0");
 		 
 		return apiClient.callApi("/problems/{problemCode}/testcases/{number}", "PUT", urlParams, null, postParams, null, null);
+	}
+	
+	/**
+	 * Update the problem testcase (without: active)
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer} number - Testcase number
+	 * @param {string} input - input data
+	 * @param {string} output - output data
+	 * @param {double} timelimit - time limit in seconds
+	 * @param {integer} judgeId - Judge ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing testcase
+	 * @throws NotFoundException for non existing judge
+	 * @return API response
+	 */
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId)
+	{
+		return updateProblemTestcase(problemCode, number, input, output, timelimit, judgeId, null);
+	}
+	
+	/**
+	 * Update the problem testcase (without: judgeId, active)
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer} number - Testcase number
+	 * @param {string} input - input data
+	 * @param {string} output - output data
+	 * @param {double} timelimit - time limit in seconds
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing testcase
+	 * @return API response
+	 */
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit)
+	{
+		return updateProblemTestcase(problemCode, number, input, output, timelimit, null, null);
+	}
+	
+	/**
+	 * Update the problem testcase (without: timelimit, judgeId, active)
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer} number - Testcase number
+	 * @param {string} input - input data
+	 * @param {string} output - output data
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing testcase
+	 * @return API response
+	 */
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output)
+	{
+		return updateProblemTestcase(problemCode, number, input, output, null, null, null);
+	}
+	
+	/**
+	 * Update the problem testcase (without: output, timelimit, judgeId, active)
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer} number - Testcase number
+	 * @param {string} input - input data
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing testcase
+	 * @return API response
+	 */
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input)
+	{
+		return updateProblemTestcase(problemCode, number, input, null, null, null, null);
 	}
 	
 	/**
