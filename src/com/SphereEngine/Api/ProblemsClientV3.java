@@ -230,6 +230,7 @@ public class ProblemsClientV3
 	 * @param {integer} compiler - Compiler ID (optional, put null if you don't want to update)
 	 * @param {string} name - Judge name (optional, put null if you don't want to update)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotAuthorizedException for modifying foreign judge
 	 * @throws NotFoundException for non existing judge
 	 * @throws NotFoundException for non existing compiler
 	 * @throws BadRequestException for empty source code
