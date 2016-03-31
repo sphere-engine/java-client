@@ -850,6 +850,26 @@ public class ProblemsClientV3
 	}
 	
 	/**
+	 * Delete the problem testcase
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {integer} number - Testcase number
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing testcase
+	 * @return API response
+	 */
+	public JsonObject deleteProblemTestcase(String problemCode, Integer number)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		
+		urlParams.put("problemCode", problemCode);
+		urlParams.put("number", number.toString());
+		 
+		return apiClient.callApi("/problems/{problemCode}/testcases/{number}", "DELETE", urlParams, null, null, null, null);
+	}
+	
+	/**
 	 * Retrieve Problem testcase file
 	 *
 	 * @param {string} problemCode - Problem code

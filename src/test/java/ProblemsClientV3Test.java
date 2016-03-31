@@ -382,6 +382,42 @@ public class ProblemsClientV3Test
     }
     
     @Test
+    public void testDeleteProblemTestcaseMethodSuccess()
+    {
+    	String r = randomNameGenerator();
+    	// create problem and testcase to delete the testcase
+    	String problem_code = "UT" + r;
+    	String problem_name = "UT" + r;
+    	
+    	client.createProblem(problem_code, problem_name);
+    	client.createProblemTestcase(problem_code, "in0", "out0", 1.0, 1, true);
+    	client.createProblemTestcase(problem_code, "in1", "out1", 1.0, 1, true);
+    	client.deleteProblemTestcase(problem_code, 0);
+    	 
+    	JsonObject p = client.getProblem(problem_code);
+		assertEquals(1, p.getAsJsonArray("testcases").size());
+		
+		client.deleteProblemTestcase(problem_code, 1);
+		
+		p = client.getProblem(problem_code);
+		assertEquals(0, p.getAsJsonArray("testcases").size());
+    }
+    
+    @Test
+    public void testDeleteProblemTestcaseMethodNonexistingProblem()
+    {
+    	exception.expect( NotFoundException.class );
+    	client.deleteProblemTestcase("NON_EXISTING_CODE", 0);
+    }
+    
+    @Test
+    public void testDeleteProblemTestcaseMethodNonexistingTestcase()
+    {
+    	exception.expect( NotFoundException.class );
+    	client.deleteProblemTestcase("TEST", 1);
+    }
+    
+    @Test
     public void testGetProblemTestcaseFileMethodSuccess()
     {
     	assertEquals('1', client.getProblemTestcaseFile("TEST", 0, "input").charAt(0));
