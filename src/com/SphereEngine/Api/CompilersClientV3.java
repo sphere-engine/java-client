@@ -58,6 +58,7 @@ public class CompilersClientV3
 	/**
 	 * Test method
 	 *
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject test()
@@ -68,6 +69,7 @@ public class CompilersClientV3
 	/**
 	 * List of all compilers
 	 *
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getCompilers()
@@ -81,6 +83,7 @@ public class CompilersClientV3
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
 	 * @param {string} input - data that will be given to the program on stdin
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject createSubmission(String source, Integer compiler, String input)
@@ -98,6 +101,7 @@ public class CompilersClientV3
 	 *
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject createSubmission(String source, Integer compiler)
@@ -109,6 +113,7 @@ public class CompilersClientV3
 	 * Create a new C++ submission with empty input
 	 *
 	 * @param {string} source - source code
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject createSubmission(String source)
@@ -120,6 +125,7 @@ public class CompilersClientV3
 	 * Create an empty C++ submission with empty input
 	 *
 	 * @param {string} source - source code
+	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject createSubmission()
@@ -136,6 +142,8 @@ public class CompilersClientV3
 	 * @param {boolean} withOutput - determines whether output produced by the program should be returned
 	 * @param {boolean} withStderr - determines whether stderr should be returned
 	 * @param {boolean} withCmpinfo - determines whether compilation information should be returned
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing submission
 	 * @return API response
 	 */
 	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput, Boolean withStderr, Boolean withCmpinfo)
@@ -162,6 +170,8 @@ public class CompilersClientV3
 	 * @param {boolean} withInput - determines whether input data of the submission should be returned
 	 * @param {boolean} withOutput - determines whether output produced by the program should be returned
 	 * @param {boolean} withStderr - determines whether stderr should be returned
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing submission
 	 * @return API response
 	 */
 	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput, Boolean withStderr)
@@ -176,6 +186,8 @@ public class CompilersClientV3
 	 * @param {boolean} withSource - determines whether source code of the submission should be returned
 	 * @param {boolean} withInput - determines whether input data of the submission should be returned
 	 * @param {boolean} withOutput - determines whether output produced by the program should be returned
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing submission
 	 * @return API response
 	 */
 	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput)
@@ -189,6 +201,8 @@ public class CompilersClientV3
 	 * @param {integer} id - Submission id
 	 * @param {boolean} withSource - determines whether source code of the submission should be returned
 	 * @param {boolean} withInput - determines whether input data of the submission should be returned
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing submission
 	 * @return API response
 	 */
 	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput)
@@ -201,6 +215,8 @@ public class CompilersClientV3
 	 *
 	 * @param {integer} id - Submission id
 	 * @param {boolean} withSource - determines whether source code of the submission should be returned
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing submission
 	 * @return API response
 	 */
 	public JsonObject getSubmission(Integer id, Boolean withSource)
@@ -212,6 +228,8 @@ public class CompilersClientV3
 	 * Fetch submission details
 	 *
 	 * @param {integer} id - Submission id
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing submission
 	 * @return API response
 	 */
 	public JsonObject getSubmission(Integer id)

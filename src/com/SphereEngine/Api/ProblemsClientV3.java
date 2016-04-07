@@ -155,6 +155,10 @@ public class ProblemsClientV3
 	public JsonObject createJudge(String source, Integer compiler, String type, String name)
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
+		
+		if ("".equals(source)) {
+			throw new BadRequestException("empty source"); 
+		}
 
 		postParams.put("source", source);
 		postParams.put("compilerId", compiler.toString());
@@ -214,6 +218,7 @@ public class ProblemsClientV3
 	 * @param {integer} id - Judge ID
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing judge
+	 * @throws ForbiddenException for retrieving foreign judge details
 	 * @return API response
 	 */
 	public JsonObject getJudge(Integer id)
@@ -243,6 +248,10 @@ public class ProblemsClientV3
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> postParams = new HashMap<String,String>();
+		
+		if ("".equals(source)) {
+			throw new BadRequestException("empty source"); 
+		}
 		
 		urlParams.put("id", Integer.toString(id));
 
@@ -347,6 +356,12 @@ public class ProblemsClientV3
 	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge)
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
+		
+		if ("".equals(code)) {
+			throw new BadRequestException("empty code");
+		} else if ("".equals(name)) {
+			throw new BadRequestException("empty name");
+		}
 		
 		postParams.put("code", code);
 		postParams.put("name", name);
@@ -460,6 +475,7 @@ public class ProblemsClientV3
 	 * @param {integer} masterjudge - Masterjudge ID (optional, put null if you don't want to update)
 	 * @param {integer[]} activeTestcases list of active testcases IDs (optional, put null if you don't want to update)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for modifying foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing masterjudge
 	 * @throws BadRequestException for empty problem code
@@ -471,8 +487,10 @@ public class ProblemsClientV3
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> postParams = new HashMap<String,String>();
 		
-		if (code.equals("")) {
-			throw new BadRequestException();
+		if ("".equals(code)) {
+			throw new BadRequestException("empty code");
+		} else if ("".equals(name)) {
+			throw new BadRequestException("empty name");
 		}
 		
 		urlParams.put("code", code);
@@ -504,6 +522,7 @@ public class ProblemsClientV3
 	 * @param {boolean} interactive - interactive problem flag (optional, put null if you don't want to update)
 	 * @param {integer} masterjudge - Masterjudge ID (optional, put null if you don't want to update)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for modifying foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing masterjudge
 	 * @throws BadRequestException for empty problem code
@@ -524,6 +543,7 @@ public class ProblemsClientV3
 	 * @param {string} type - Problem type, enum: binary|min|max (optional, put null if you don't want to update)
 	 * @param {boolean} interactive - interactive problem flag (optional, put null if you don't want to update)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for modifying foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
@@ -542,6 +562,7 @@ public class ProblemsClientV3
 	 * @param {string} body - Problem body (optional, put null if you don't want to update)
 	 * @param {string} type - Problem type, enum: binary|min|max (optional, put null if you don't want to update)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for modifying foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
@@ -559,6 +580,7 @@ public class ProblemsClientV3
 	 * @param {string} name - Problem name (optional, put null if you don't want to update)
 	 * @param {string} body - Problem body (optional, put null if you don't want to update)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for modifying foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
@@ -575,6 +597,7 @@ public class ProblemsClientV3
 	 * @param {string} code - Problem code
 	 * @param {string} name - Problem name (optional, put null if you don't want to update)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for modifying foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
@@ -591,6 +614,7 @@ public class ProblemsClientV3
 	 * @param {string} problemCode - Problem code
 	 * @param {integer[]} activeTestcases - Active testcases
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for modifying foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @return API response
@@ -605,6 +629,7 @@ public class ProblemsClientV3
 	 *
 	 * @param {string} problemCode - Problem code
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for retrieving testcases of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
@@ -627,6 +652,7 @@ public class ProblemsClientV3
 	 * @param {integer} judgeId - Judge ID
 	 * @param {boolean} active - activate test
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing judge
 	 * @return API response
@@ -656,6 +682,7 @@ public class ProblemsClientV3
 	 * @param {double} timelimit - time limit in seconds
 	 * @param {integer} judgeId - Judge ID
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing judge
 	 * @return API response
@@ -673,6 +700,7 @@ public class ProblemsClientV3
 	 * @param {string} output - output data
 	 * @param {double} timelimit - time limit in seconds
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
@@ -688,6 +716,7 @@ public class ProblemsClientV3
 	 * @param {string} input - input data
 	 * @param {string} output - output data
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
@@ -703,6 +732,7 @@ public class ProblemsClientV3
 	 * @param {string} problemCode - Problem code
 	 * @param {string} input - input data
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
@@ -717,6 +747,7 @@ public class ProblemsClientV3
 	 *
 	 * @param {string} problemCode - Problem code
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
@@ -731,6 +762,7 @@ public class ProblemsClientV3
 	 * @param {string} problemCode - Problem code
 	 * @param {integer} number - Testcase number
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for retrieving a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @return API response
@@ -756,6 +788,7 @@ public class ProblemsClientV3
 	 * @param {integer} judgeId - Judge ID
 	 * @param {boolean} active - activate test
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for updating a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @throws NotFoundException for non existing judge
@@ -788,6 +821,7 @@ public class ProblemsClientV3
 	 * @param {double} timelimit - time limit in seconds
 	 * @param {integer} judgeId - Judge ID
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for updating a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @throws NotFoundException for non existing judge
@@ -807,6 +841,7 @@ public class ProblemsClientV3
 	 * @param {string} output - output data
 	 * @param {double} timelimit - time limit in seconds
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for updating a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @return API response
@@ -824,6 +859,7 @@ public class ProblemsClientV3
 	 * @param {string} input - input data
 	 * @param {string} output - output data
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for updating a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @return API response
@@ -840,6 +876,7 @@ public class ProblemsClientV3
 	 * @param {integer} number - Testcase number
 	 * @param {string} input - input data
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for updating a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @return API response
@@ -855,6 +892,7 @@ public class ProblemsClientV3
 	 * @param {string} problemCode - Problem code
 	 * @param {integer} number - Testcase number
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for removing a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @return API response
@@ -876,6 +914,7 @@ public class ProblemsClientV3
 	 * @param {integer} number - Testcase number
 	 * @param {string} filename - stream name, enum: input|output
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ForbiddenException for retrieving a file of a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @throws NotFoundException for non existing file
@@ -912,6 +951,10 @@ public class ProblemsClientV3
 	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user)
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
+		
+		if ("".equals(source)) {
+			throw new BadRequestException("empty source");
+		}
 		
 		postParams.put("problemCode", problemCode);
 		postParams.put("compilerId", compiler.toString());
