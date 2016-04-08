@@ -420,8 +420,16 @@ public class ProblemsClientV3Test
     @Test
     public void testGetProblemTestcaseFileMethodSuccess()
     {
-    	assertEquals('1', client.getProblemTestcaseFile("TEST", 0, "input").charAt(0));
-    	assertEquals('2', client.getProblemTestcaseFile("TEST", 0, "output").charAt(3));
+    	String r = randomNameGenerator();
+    	// create problem and testcase to delete the testcase
+    	String problem_code = "UT" + r;
+    	String problem_name = "UT" + r;
+    	
+    	client.createProblem(problem_code, problem_name);
+    	client.createProblemTestcase(problem_code, "in0", "out0", 1.0, 1, true);
+    	
+    	assertEquals("in0", client.getProblemTestcaseFile(problem_code, 0, "input"));
+    	assertEquals("out0", client.getProblemTestcaseFile(problem_code, 0, "output"));
     }
     
     @Test
