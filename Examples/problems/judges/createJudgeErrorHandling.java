@@ -1,0 +1,39 @@
+package problems.judges;
+/**
+ * Example presents error handling for createJudge() API method  
+ */
+
+import java.util.Map;
+
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.NotFoundException;
+
+import com.SphereEngine.Api.ProblemsClientV3;
+import com.google.gson.JsonObject;
+
+public class createJudgeErrorHandling 
+{
+
+	public static void main(String[] args) 
+	{
+		Map<String, String> env = System.getenv();
+		ProblemsClientV3 client = new ProblemsClientV3(
+				env.get("SE_ACCESS_TOKEN_PROBLEMS"), 
+				env.get("SE_ENDPOINT_PROBLEMS"));
+		
+		String source = "int main() { return 0; }";
+		Integer nonexistingCompiler = 9999;
+		
+		try {
+			JsonObject response = client.createJudge(source, nonexistingCompiler);
+			// response.get("id") stores the ID of the created judge
+		} catch (NotAuthorizedException e) {
+			System.out.println("Invalid access token");
+		} catch (NotFoundException e) {
+			System.out.println("Compiler does not exist");
+		} catch (BadRequestException e) {
+			System.out.println("Empty source");
+		}
+	}	
+}
