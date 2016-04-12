@@ -10,6 +10,7 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
 
 import com.SphereEngine.Api.ProblemsClientV3;
 
@@ -39,9 +40,10 @@ public class errorHandling
 			System.out.println("Bad request");
 			// more details about missing resource are provided in $e->getMessage()
 	    	// possible reasons depend on called API method
+		} catch (WebApplicationException e) {
+			System.out.println("API connection problem");
 		} finally {
-			// handle unexpected API connection errors
-			// and handle other exceptions (connection or network errors etc.)
+			// handle other exceptions (connection or network errors etc.)
 		}
 	}	
 }
