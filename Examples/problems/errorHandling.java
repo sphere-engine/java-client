@@ -1,6 +1,6 @@
 package problems;
 /**
- * Example presents complete error handling schema for calling API methods of 
+ * Example presents complete error handling schema for calling API methods of
  * Sphere Engine Problems API client
 */
 
@@ -14,16 +14,16 @@ import javax.ws.rs.WebApplicationException;
 
 import com.SphereEngine.Api.ProblemsClientV3;
 
-public class errorHandling 
+public class errorHandling
 {
 
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
 		Map<String, String> env = System.getenv();
 		ProblemsClientV3 client = new ProblemsClientV3(
-				env.get("SE_ACCESS_TOKEN_PROBLEMS"), 
+				env.get("SE_ACCESS_TOKEN_PROBLEMS"),
 				env.get("SE_ENDPOINT_PROBLEMS"));
-		
+
 		// complete error handling
 		try {
 		    // any API method usage
@@ -31,10 +31,10 @@ public class errorHandling
 		} catch (NotAuthorizedException e) {
 			System.out.println("Invalid access token");
 		} catch (ForbiddenException e) {
-			System.out.println("Access to the resource is forbideen");
+			System.out.println("Access to the resource is forbidden");
 		} catch (NotFoundException e) {
 			System.out.println("Resource does not exist");
-			// more details about missing resource are provided in $e->getMessage() 
+			// more details about missing resource are provided in $e->getMessage()
 	        // possible missing resources depend on called API method
 		} catch (BadRequestException e) {
 			System.out.println("Bad request");
@@ -45,5 +45,5 @@ public class errorHandling
 		} finally {
 			// handle other exceptions (connection or network errors etc.)
 		}
-	}	
+	}
 }
