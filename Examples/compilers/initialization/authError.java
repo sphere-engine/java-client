@@ -18,6 +18,7 @@ public class authError
 		Map<String, String> env = System.getenv();
 		CompilersClientV3 client = new CompilersClientV3(
 				"wrong_access_token", 
+				"compilers.sphere-engine.com");
 		
 		try {
 			client.test();

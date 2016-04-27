@@ -16,6 +16,7 @@ public class createSubmission
 		Map<String, String> env = System.getenv();
 		CompilersClientV3 client = new CompilersClientV3(
 				"your_access_token", 
+				"compilers.sphere-engine.com");
 		
 		String source = "int main() { return 0; }";
 		Integer compiler = 11; // C language
