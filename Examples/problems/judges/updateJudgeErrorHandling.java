@@ -3,8 +3,6 @@ package problems.judges;
  * Example presents error handling for updateJudge() API method  
  */
 
-import java.util.Map;
-
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
@@ -18,7 +16,6 @@ public class updateJudgeErrorHandling
 
 	public static void main(String[] args) 
 	{
-		Map<String, String> env = System.getenv();
 		ProblemsClientV3 client = new ProblemsClientV3(
 				"your_access_token", 
 				"problems.sphere-engine.com");

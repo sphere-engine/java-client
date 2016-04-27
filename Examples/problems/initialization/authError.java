@@ -4,8 +4,6 @@ package problems.initialization;
  * Sphere Engine Problems API client
  */
 
-import java.util.Map;
-
 import com.SphereEngine.Api.ProblemsClientV3;
 
 import javax.ws.rs.NotAuthorizedException;
@@ -15,7 +13,6 @@ public class authError
 
 	public static void main(String[] args) 
 	{
-		Map<String, String> env = System.getenv();
 		ProblemsClientV3 client = new ProblemsClientV3(
 				"wrong_access_token",
 				"problems.sphere-engine.com");

@@ -3,8 +3,6 @@ package problems.problems;
  * Example presents error handling for createProblem() API method  
  */
 
-import java.util.Map;
-
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
@@ -17,7 +15,6 @@ public class createProblemErrorHandling
 
 	public static void main(String[] args) 
 	{
-		Map<String, String> env = System.getenv();
 		ProblemsClientV3 client = new ProblemsClientV3(
 				"your_access_token", 
 				"problems.sphere-engine.com");

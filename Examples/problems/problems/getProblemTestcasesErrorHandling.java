@@ -3,8 +3,6 @@ package problems.problems;
  * Example presents error handling for getProblemTestcases() API method   
  */
 
-import java.util.Map;
-
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
@@ -17,7 +15,6 @@ public class getProblemTestcasesErrorHandling
 
 	public static void main(String[] args) 
 	{
-		Map<String, String> env = System.getenv();
 		ProblemsClientV3 client = new ProblemsClientV3(
 				"your_access_token", 
 				"problems.sphere-engine.com");

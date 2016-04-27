@@ -2,9 +2,6 @@ package compilers.submissions;
 /**
  * Example presents usage of the successful createSubmission() API method
 */
-
-import java.util.Map;
-
 import javax.ws.rs.NotAuthorizedException;
 
 import com.SphereEngine.Api.CompilersClientV3;
@@ -15,7 +12,6 @@ public class createSubmissionErrorHandling
 
 	public static void main(String[] args) 
 	{
-		Map<String, String> env = System.getenv();
 		CompilersClientV3 client = new CompilersClientV3(
 				"your_access_token", 
 				"compilers.sphere-engine.com");
