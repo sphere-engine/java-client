@@ -17,8 +17,8 @@ public class createSubmissionErrorHandling
 	{
 		Map<String, String> env = System.getenv();
 		CompilersClientV3 client = new CompilersClientV3(
-				env.get("SE_ACCESS_TOKEN_COMPILERS"), 
-				env.get("SE_ENDPOINT_COMPILERS"));
+				"your_access_token", 
+				"compilers.sphere-engine.com");
 		
 		String source = "int main() { return 0; }";
 		Integer compiler = 11; // C language

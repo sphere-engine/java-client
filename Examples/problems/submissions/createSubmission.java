@@ -15,8 +15,8 @@ public class createSubmission
 	{
 		Map<String, String> env = System.getenv();
 		ProblemsClientV3 client = new ProblemsClientV3(
-				env.get("SE_ACCESS_TOKEN_PROBLEMS"), 
-				env.get("SE_ENDPOINT_PROBLEMS"));
+				"your_access_token", 
+				"problems.sphere-engine.com");
 		
 		String problemCode = "TEST";
 		String source = "int main() { return 0; }";

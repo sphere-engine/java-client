@@ -4,8 +4,6 @@ package problems;
  * Sphere Engine Problems API client
 */
 
-import java.util.Map;
-
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
@@ -19,11 +17,10 @@ public class errorHandling
 
 	public static void main(String[] args)
 	{
-		Map<String, String> env = System.getenv();
 		ProblemsClientV3 client = new ProblemsClientV3(
-				env.get("SE_ACCESS_TOKEN_PROBLEMS"),
-				env.get("SE_ENDPOINT_PROBLEMS"));
-
+				"your_access_token", 
+				"problems.sphere-engine.com");
+		
 		// complete error handling
 		try {
 		    // any API method usage

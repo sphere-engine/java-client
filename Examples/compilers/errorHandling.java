@@ -4,8 +4,6 @@ package compilers;
  * Sphere Engine Compilers API client
 */
 
-import java.util.Map;
-
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
@@ -19,11 +17,10 @@ public class errorHandling
 
 	public static void main(String[] args)
 	{
-		Map<String, String> env = System.getenv();
 		CompilersClientV3 client = new CompilersClientV3(
-				env.get("SE_ACCESS_TOKEN_COMPILERS"),
-				env.get("SE_ENDPOINT_COMPILERS"));
-
+				"your_access_token", 
+				"compilers.sphere-engine.com");
+		
 		// complete error handling
 		try {
 		    // any API method usage
