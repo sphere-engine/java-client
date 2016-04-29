@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ForbiddenException;
 
 import static org.hamcrest.CoreMatchers.*;
 
@@ -66,18 +67,27 @@ public class CompilersClientV3Test
 	@Test
 	public void testGetSubmissionMethodSuccess()
     {
-		JsonObject s = client.getSubmission(25, true);
-        assertEquals("//test", s.get("source").getAsString());
-        assertEquals(1, s.getAsJsonObject("compiler").get("id").getAsInt());
+		JsonObject s = client.getSubmission(2, true);
+        assertEquals("abc", s.get("source").getAsString());
+        assertEquals(11, s.getAsJsonObject("compiler").get("id").getAsInt());
     }
 	
 	@Test
 	public void testGetSubmissionMethodNotExisting()
     {
-    	Integer nonexistingSubmission = 999999999;
+    	Integer nonexistingSubmission = 3;
     	
     	exception.expect( NotFoundException.class );
     	client.getSubmission(nonexistingSubmission);
+    }
+	
+	@Test
+	public void testGetSubmissionMethodAccessDenied()
+    {
+    	Integer foreignSubmission = 1;
+    	
+    	exception.expect( ForbiddenException.class );
+    	client.getSubmission(foreignSubmission);
     }
 	
 	@Test
