@@ -15,7 +15,7 @@ public class authError
 	{
 		CompilersClientV3 client = new CompilersClientV3(
 				"wrong_access_token", 
-				"compilers.sphere-engine.com");
+				"<endpoint>");
 		
 		try {
 			client.test();

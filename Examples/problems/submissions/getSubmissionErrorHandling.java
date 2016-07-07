@@ -15,8 +15,8 @@ public class getSubmissionErrorHandling
 	public static void main(String[] args) 
 	{
 		ProblemsClientV3 client = new ProblemsClientV3(
-				"your_access_token", 
-				"problems.sphere-engine.com");
+				"<access_token>", 
+				"<endpoint>");
 		
 		try {
 			JsonObject response = client.getSubmission(2016);

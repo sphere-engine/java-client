@@ -15,7 +15,7 @@ public class authError
 	{
 		ProblemsClientV3 client = new ProblemsClientV3(
 				"wrong_access_token",
-				"problems.sphere-engine.com");
+				"<endpoint>");
 		
 		try {
 			client.test();
