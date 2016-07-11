@@ -8,7 +8,7 @@ import javax.ws.rs.NotAuthorizedException;
 import com.SphereEngine.Api.CompilersClientV3;
 import com.google.gson.JsonObject;
 
-public class test 
+public class testErrorHandling
 {
 
 	public static void main(String[] args) 
