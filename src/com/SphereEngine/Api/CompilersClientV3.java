@@ -74,7 +74,7 @@ public class CompilersClientV3
 	 */
 	public JsonObject getCompilers()
 	{
-	    return apiClient.callApi("/languages", "GET", null, null, null, null, null);
+	    return apiClient.callApi("/compilers", "GET", null, null, null, null, null);
 	}
 
 	/**
