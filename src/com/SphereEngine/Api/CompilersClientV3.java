@@ -83,15 +83,17 @@ public class CompilersClientV3
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
 	 * @param {string} input - data that will be given to the program on stdin
+	 * @param {integer} priority - priority of the submission, default: normal priority (eg. 5 for range 1-9)
 	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String source, Integer compiler, String input)
+	public JsonObject createSubmission(String source, Integer compiler, String input, Integer priority)
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
 		postParams.put("sourceCode", source);
 		postParams.put("language", compiler.toString());
 		postParams.put("input", input);
+		if (priority != null) postParams.put("priority", priority.toString());
 
 		return apiClient.callApi("/submissions", "POST", null, null, postParams, null, null);
 	}
@@ -106,7 +108,7 @@ public class CompilersClientV3
 	 */
 	public JsonObject createSubmission(String source, Integer compiler)
 	{
-		return createSubmission(source, compiler, "");
+		return createSubmission(source, compiler, "", null);
 	}
 	
 	/**
@@ -118,7 +120,7 @@ public class CompilersClientV3
 	 */
 	public JsonObject createSubmission(String source)
 	{
-		return createSubmission(source, 1, "");
+		return createSubmission(source, 1, "", null);
 	}
 
 	/**
@@ -130,7 +132,7 @@ public class CompilersClientV3
 	 */
 	public JsonObject createSubmission()
 	{
-		return createSubmission("", 1, "");
+		return createSubmission("", 1, "", null);
 	}
 	
 	/**

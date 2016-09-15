@@ -941,6 +941,7 @@ public class ProblemsClientV3
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
 	 * @param {integer} user - User ID
+	 * @param {integer} priority - priority of the submission, default: normal priority (eg. 5 for range 1-9)
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing compiler
@@ -948,7 +949,7 @@ public class ProblemsClientV3
 	 * @throws BadRequestException for empty source code
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user)
+	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user, Integer priority)
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
 		
@@ -960,6 +961,7 @@ public class ProblemsClientV3
 		postParams.put("compilerId", compiler.toString());
 		postParams.put("source", source);
 		if (user != null) postParams.put("userId", user.toString());
+		if (priority != null) postParams.put("priority", priority.toString());
 		
 		return apiClient.callApi("/submissions", "POST", null, null, postParams, null, null);
 	}
@@ -978,7 +980,7 @@ public class ProblemsClientV3
 	 */
 	public JsonObject createSubmission(String problemCode, String source, Integer compiler)
 	{
-		return createSubmission(problemCode, source, compiler, null);
+		return createSubmission(problemCode, source, compiler, null, null);
 	}
 	
 	/**
@@ -993,7 +995,7 @@ public class ProblemsClientV3
 	 */
 	public JsonObject createSubmission(String problemCode, String source)
 	{
-		return createSubmission(problemCode, source, 1, null);
+		return createSubmission(problemCode, source, 1, null, null);
 	}
 	
 	/**
