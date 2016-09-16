@@ -1,7 +1,12 @@
 package com.SphereEngine.Api;
 
 import java.util.Map;
+
+import javax.ws.rs.NotFoundException;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gson.JsonObject;
 
@@ -83,7 +88,7 @@ public class CompilersClientV3
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
 	 * @param {string} input - data that will be given to the program on stdin
-	 * @param {integer} priority - priority of the submission, default: normal priority (eg. 5 for range 1-9)
+	 * @param {integer} priority - priority of the submission
 	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
@@ -97,9 +102,23 @@ public class CompilersClientV3
 
 		return apiClient.callApi("/submissions", "POST", null, null, postParams, null, null);
 	}
+	
+	/**
+	 * Create a new submission with normal priority
+	 *
+	 * @param {string} source - source code
+	 * @param {integer} compiler - Compiler ID
+	 * @param {string} input - data that will be given to the program on stdin
+	 * @throws NotAuthorizedException for invalid access token
+	 * @return API response
+	 */
+	public JsonObject createSubmission(String source, Integer compiler, String input)
+	{
+		return createSubmission(source, compiler, input, null);
+	}
 
 	/**
-	 * Create a new submission with empty input
+	 * Create a new submission with normal priority and empty input
 	 *
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
@@ -112,7 +131,7 @@ public class CompilersClientV3
 	}
 	
 	/**
-	 * Create a new C++ submission with empty input
+	 * Create a new C++ submission with normal priority and empty input
 	 *
 	 * @param {string} source - source code
 	 * @throws NotAuthorizedException for invalid access token
@@ -124,7 +143,7 @@ public class CompilersClientV3
 	}
 
 	/**
-	 * Create an empty C++ submission with empty input
+	 * Create an empty C++ submission with normal priority and empty input
 	 *
 	 * @param {string} source - source code
 	 * @throws NotAuthorizedException for invalid access token

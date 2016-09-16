@@ -941,7 +941,7 @@ public class ProblemsClientV3
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
 	 * @param {integer} user - User ID
-	 * @param {integer} priority - priority of the submission, default: normal priority (eg. 5 for range 1-9)
+	 * @param {integer} priority - priority of the submission
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing compiler
@@ -967,7 +967,26 @@ public class ProblemsClientV3
 	}
 	
 	/**
-	 * Create a new submission with default user
+	 * Create a new submission with normal priority
+	 *
+	 * @param {string} problemCode - Problem code
+	 * @param {string} source - source code
+	 * @param {integer} compiler - Compiler ID
+	 * @param {integer} user - User ID
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @throws NotFoundException for non existing compiler
+	 * @throws NotFoundException for non existing user
+	 * @throws BadRequestException for empty source code
+	 * @return API response
+	 */
+	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user)
+	{
+		return createSubmission(problemCode, source, compiler, user, null);
+	}
+	
+	/**
+	 * Create a new submission with normal priority and default user
 	 *
 	 * @param {string} problemCode - Problem code
 	 * @param {string} source - source code
@@ -984,7 +1003,7 @@ public class ProblemsClientV3
 	}
 	
 	/**
-	 * Create a new C++ submission with default user
+	 * Create a new C++ submission with normal priority and default user
 	 *
 	 * @param {string} problemCode - Problem code
 	 * @param {string} source - source code
