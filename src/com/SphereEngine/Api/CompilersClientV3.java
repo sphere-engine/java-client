@@ -238,4 +238,31 @@ public class CompilersClientV3
 	{
 		return getSubmission(id, false, false, false, false, false);
 	}
+
+	/**
+	 * Fetch raw stream
+	 *
+	 * @param {integer} id - Submission id
+	 * @param {string} stream -  name of the stream, input|output|stderr|cmpinfo|source
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing submission or non existing stream
+	 * @return file content
+	 */
+	public String getSubmissionStream(Integer id, String stream)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		List<String> streams = Arrays.asList("input", "stdin", "output", "stdout", "stderr", "error", "cmpinfo", "source");
+
+		if (!streams.contains(stream)) {
+			throw new NotFoundException("stream doesn't exist");
+		}
+		
+		urlParams.put("id", id.toString());
+		urlParams.put("stream", stream.toString());
+
+		return apiClient.
+			callApi("/submissions/{id}/{stream}", "GET", urlParams, null, null, null, "file")
+			.get("file_content")
+			.getAsString();
+	}
 }

@@ -91,6 +91,29 @@ public class CompilersClientV3Test
     }
 	
 	@Test
+	public void testGetSubmissionStreamMethodSuccess()
+    {
+		String source = client.getSubmissionStream(2, "output");
+        assertEquals("abc", source);
+    }
+
+	@Test
+	public void testGetSubmissionStreamMethodNotExistingSubmission()
+    {
+    	Integer nonexistingSubmission = 3;
+    	
+    	exception.expect( NotFoundException.class );
+    	client.getSubmissionStream(nonexistingSubmission, "output");
+    }
+
+	@Test
+	public void testGetSubmissionStreamMethodNotExistingStream()
+    {
+    	exception.expect( NotFoundException.class );
+    	client.getSubmissionStream(2, "nonexistingstream");
+    }
+
+	@Test
 	public void testCreateSubmissionMethodSuccess()
     {
 		String submission_source = "unit test";
