@@ -300,21 +300,37 @@ public class ProblemsClientV3
 	 *
 	 * @param {integer} limit - limit of problems to get
 	 * @param {integer} offset - offset
+	 * @param {boolean} shortBody - determines whether shortened body should be returned
 	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
-	public JsonObject getProblems(Integer limit, Integer offset)
+	public JsonObject getProblems(Integer limit, Integer offset, Boolean shortBody)
 	{
 		Map<String, String> queryParams = new HashMap<String,String>();
 		
 		queryParams.put("limit", limit.toString());
 		queryParams.put("offset", offset.toString());
+		queryParams.put("shortBody", (shortBody) ? "1" : "0");
 		
 		return apiClient.callApi("/problems", "GET", null, queryParams, null, null, null);
 	}
 	
 	/**
-	 * List of problems starting from the first one
+	 * List of problems without shortened body
+	 *
+	 * @param {integer} limit - limit of problems to get
+	 * @param {integer} offset - offset
+	 * @param {boolean} shortBody - determines whether shortened body should be returned
+	 * @throws NotAuthorizedException for invalid access token
+	 * @return API response
+	 */
+	public JsonObject getProblems(Integer limit, Integer offset)
+	{
+		return getProblems(limit, offset, false);
+	}
+
+	/**
+	 * List of problems starting from the first one without shortened body
 	 *
 	 * @param {integer} limit - limit of problems to get
 	 * @throws NotAuthorizedException for invalid access token
@@ -322,18 +338,18 @@ public class ProblemsClientV3
 	 */
 	public JsonObject getProblems(Integer limit)
 	{
-		return getProblems(limit, 0);
+		return getProblems(limit, 0, false);
 	}
 	
 	/**
-	 * List of 10 problems starting from the first one
+	 * List of 10 problems starting from the first one without shortened body
 	 *
 	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
 	public JsonObject getProblems()
 	{
-		return getProblems(10, 0);
+		return getProblems(10, 0, false);
 	}
 	
 	/**
@@ -451,19 +467,35 @@ public class ProblemsClientV3
 	 * Retrieve an existing problem
 	 *
 	 * @param {string} code - Problem code
+	 * @param {boolean} shortBody - determines whether shortened body should be returned
+	 * @throws NotAuthorizedException for invalid access token
+	 * @throws NotFoundException for non existing problem
+	 * @return API response
+	 */
+	public JsonObject getProblem(String code, Boolean shortBody)
+	{
+		Map<String, String> urlParams = new HashMap<String,String>();
+		Map<String, String> queryParams = new HashMap<String,String>();
+				
+		urlParams.put("code", code);
+		queryParams.put("shortBody", (shortBody) ? "1" : "0");
+		
+		return apiClient.callApi("/problems/{code}", "GET", urlParams, queryParams, null, null, null);
+	}
+	
+	/**
+	 * Retrieve an existing problem wihtout shortened body
+	 *
+	 * @param {string} code - Problem code
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing problem
 	 * @return API response
 	 */
 	public JsonObject getProblem(String code)
 	{
-		Map<String, String> urlParams = new HashMap<String,String>();
-		
-		urlParams.put("code", code);
-
-		return apiClient.callApi("/problems/{code}", "GET", urlParams, null, null, null, null);
+		return getProblem(code, false);
 	}
-	
+
 	/**
 	 * Update an existing problem
 	 *
