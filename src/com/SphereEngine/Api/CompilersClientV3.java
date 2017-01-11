@@ -257,7 +257,36 @@ public class CompilersClientV3
 	{
 		return getSubmission(id, false, false, false, false, false);
 	}
+	
+	/**
+	 * Fetches status of multiple submissions (maximum 20 ids)
+	 *
+	 * @param {integer[]} ids - Submission ids (required)
+	 * @throws NotAuthorizedException for invalid access token
+	 * @return API response
+	 */
+	public JsonObject getSubmissions(Integer[] ids)
+	{
+		Map<String, String> queryParams = new HashMap<String,String>();
+		
+		StringBuilder idsStringBuilder = new StringBuilder();
+		for(Integer id: ids) {
+			if(id == null || id <= 0) {
+				break;
+			}
+			idsStringBuilder.append(id);
+			idsStringBuilder.append(",");
+		}
 
+		String idsString = "";
+		if(idsStringBuilder.length() > 0) {
+			idsString = idsStringBuilder.substring(0, idsStringBuilder.length() - 1);
+		}
+		queryParams.put("ids", idsString);
+		
+		return apiClient.callApi("/submissions", "GET", null, queryParams, null, null, null);
+	}
+	
 	/**
 	 * Fetch raw stream
 	 *

@@ -597,6 +597,28 @@ public class ProblemsClientV3Test
 	}
     
     @Test
+    public void testGetSubmissionsMethodSuccess()
+	{
+    	
+    	JsonObject response = client.getSubmissions(new Integer[]{1,2});
+    	
+    	assertEquals(true, response.isJsonArray() && response.get("items") != null);   
+    	assertEquals(2, response.get("items").getAsJsonArray().size());
+    	assertEquals(true, response.get("items").getAsJsonArray().get(0).isJsonNull() == false);
+    	assertEquals(true, response.get("items").getAsJsonArray().get(1).isJsonNull() == false);
+		
+	}
+    
+    @Test
+    public void testGetSubmissionsMethodNonexistingSubmission()
+	{
+		JsonObject response = client.getSubmissions(new Integer[]{999999999});
+		
+		assertEquals(true, response.isJsonArray() && response.get("items") != null);   
+    	assertEquals(0, response.get("items").getAsJsonArray().size());
+	}
+    
+    @Test
     public void testCreateSubmissionMethodSuccess()
 	{
 		String submission_problem_code = "TEST";
