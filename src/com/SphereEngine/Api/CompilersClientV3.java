@@ -261,7 +261,7 @@ public class CompilersClientV3
 	/**
 	 * Fetches status of multiple submissions (maximum 20 ids)
 	 *
-	 * @param {integer[]} ids - Submission ids (required)
+	 * @param {Integer[]} ids - Submission ids (required)
 	 * @throws NotAuthorizedException for invalid access token
 	 * @return API response
 	 */
@@ -272,7 +272,7 @@ public class CompilersClientV3
 		StringBuilder idsStringBuilder = new StringBuilder();
 		for(Integer id: ids) {
 			if(id == null || id <= 0) {
-				break;
+				continue;
 			}
 			idsStringBuilder.append(id);
 			idsStringBuilder.append(",");

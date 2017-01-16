@@ -94,12 +94,13 @@ public class CompilersClientV3Test
     public void testGetSubmissionsMethodSuccess()
 	{
     	
-    	JsonObject response = client.getSubmissions(new Integer[]{1,2});
+		JsonObject response = client.getSubmissions(new Integer[]{1,2});
     	
-    	assertEquals(true, response.isJsonArray() && response.get("items") != null);   
+    	assertTrue(response.isJsonArray());
+    	assertNotNull(response.get("items"));
     	assertEquals(2, response.get("items").getAsJsonArray().size());
-    	assertEquals(true, response.get("items").getAsJsonArray().get(0).isJsonNull() == false);
-    	assertEquals(true, response.get("items").getAsJsonArray().get(1).isJsonNull() == false);
+    	assertFalse(response.get("items").getAsJsonArray().get(0).isJsonNull());
+    	assertFalse(response.get("items").getAsJsonArray().get(1).isJsonNull());
 		
 	}
     
@@ -108,7 +109,8 @@ public class CompilersClientV3Test
 	{
 		JsonObject response = client.getSubmissions(new Integer[]{999999999});
 		
-		assertEquals(true, response.isJsonArray() && response.get("items") != null);   
+		assertTrue(response.isJsonArray());
+    	assertNotNull(response.get("items"));  
     	assertEquals(0, response.get("items").getAsJsonArray().size());
 	}
 	
