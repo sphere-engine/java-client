@@ -4,7 +4,6 @@ package compilers.submissions;
  */
 
 import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.NotFoundException;
 
 import com.SphereEngine.Api.CompilersClientV3;
 import com.google.gson.JsonObject;

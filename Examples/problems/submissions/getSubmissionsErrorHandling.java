@@ -4,7 +4,6 @@ package problems.submissions;
  */
 
 import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.NotFoundException;
 
 import com.SphereEngine.Api.ProblemsClientV3;
 import com.google.gson.JsonObject;
