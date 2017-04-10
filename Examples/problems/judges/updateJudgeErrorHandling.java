@@ -20,7 +20,7 @@ public class updateJudgeErrorHandling
 				"<access_token>", 
 				"<endpoint>");
 		
-		String source = "int main() { return 0; }";
+		String source = "<source code>";
 		Integer nonexistingCompiler = 9999;
 		
 		try {

@@ -20,7 +20,7 @@ public class createSubmissionErrorHandling
 				"<endpoint>");
 		
 		String problemCode = "TEST";
-		String source = "int main() { return 0; }";
+		String source = "<source code>";
 		Integer nonexistingCompiler = 99999;
 		
 		try {

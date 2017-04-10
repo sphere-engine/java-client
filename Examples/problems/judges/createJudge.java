@@ -15,7 +15,7 @@ public class createJudge
 				"<access_token>", 
 				"<endpoint>");
 		
-		String source = "int main() { return 0; }";
+		String source = "<source code>";
 		Integer compiler = 11; // C language
 		
 		JsonObject response = client.createJudge(source, compiler);

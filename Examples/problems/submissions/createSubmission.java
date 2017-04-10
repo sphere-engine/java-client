@@ -16,7 +16,7 @@ public class createSubmission
 				"<endpoint>");
 		
 		String problemCode = "TEST";
-		String source = "int main() { return 0; }";
+		String source = "<source code>";
 		Integer compiler = 11; // C language
 		
 		JsonObject response = client.createSubmission(problemCode, source, compiler);
