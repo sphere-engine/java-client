@@ -16,7 +16,7 @@ public class createSubmissionErrorHandling
 				"<access_token>", 
 				"<endpoint>");
 		
-		String source = "int main() { return 0; }";
+		String source = "<source code>";
 		Integer compiler = 11; // C language
 		String input = "2016";
 		
