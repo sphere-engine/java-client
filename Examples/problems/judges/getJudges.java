@@ -4,6 +4,8 @@ package problems.judges;
  */
 
 import com.SphereEngine.Api.ProblemsClientV3;
+import com.SphereEngine.Api.Exception.ClientException;
+import com.SphereEngine.Api.Exception.ConnectionException;
 import com.google.gson.JsonObject;
 
 public class getJudges 
@@ -15,6 +17,12 @@ public class getJudges
 				"<access_token>", 
 				"<endpoint>");
 		
-		JsonObject response = client.getJudges();
+		try {
+			JsonObject response = client.getJudges();
+		} catch (ClientException e) {
+			System.out.println(e.getMessage());
+		} catch (ConnectionException e) {
+			System.out.println(e.getMessage());
+		}
 	}	
 }

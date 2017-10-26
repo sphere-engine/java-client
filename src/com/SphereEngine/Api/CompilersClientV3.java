@@ -2,12 +2,13 @@ package com.SphereEngine.Api;
 
 import java.util.Map;
 
-import javax.ws.rs.NotFoundException;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import com.SphereEngine.Api.Exception.NotFoundException;
+import com.SphereEngine.Api.Exception.ConnectionException;
+import com.SphereEngine.Api.Exception.ClientException;
 import com.google.gson.JsonObject;
 
 /*
@@ -64,9 +65,11 @@ public class CompilersClientV3
 	 * Test method
 	 *
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject test()
+	public JsonObject test() throws ClientException, ConnectionException
 	{
 	    return apiClient.callApi("/test", "GET", null, null, null, null, null);
 	}
@@ -75,9 +78,11 @@ public class CompilersClientV3
 	 * List of all compilers
 	 *
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getCompilers()
+	public JsonObject getCompilers() throws ClientException, ConnectionException
 	{
 	    return apiClient.callApi("/compilers", "GET", null, null, null, null, null);
 	}
@@ -90,9 +95,11 @@ public class CompilersClientV3
 	 * @param {string} input - data that will be given to the program on stdin
 	 * @param {integer} priority - priority of the submission
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String source, Integer compiler, String input, Integer priority)
+	public JsonObject createSubmission(String source, Integer compiler, String input, Integer priority) throws ClientException, ConnectionException
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
 		postParams.put("sourceCode", source);
@@ -110,9 +117,11 @@ public class CompilersClientV3
 	 * @param {integer} compiler - Compiler ID
 	 * @param {string} input - data that will be given to the program on stdin
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String source, Integer compiler, String input)
+	public JsonObject createSubmission(String source, Integer compiler, String input) throws ClientException, ConnectionException
 	{
 		return createSubmission(source, compiler, input, null);
 	}
@@ -123,9 +132,11 @@ public class CompilersClientV3
 	 * @param {string} source - source code
 	 * @param {integer} compiler - Compiler ID
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String source, Integer compiler)
+	public JsonObject createSubmission(String source, Integer compiler) throws ClientException, ConnectionException
 	{
 		return createSubmission(source, compiler, "", null);
 	}
@@ -135,9 +146,11 @@ public class CompilersClientV3
 	 *
 	 * @param {string} source - source code
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String source)
+	public JsonObject createSubmission(String source) throws ClientException, ConnectionException
 	{
 		return createSubmission(source, 1, "", null);
 	}
@@ -147,9 +160,11 @@ public class CompilersClientV3
 	 *
 	 * @param {string} source - source code
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission()
+	public JsonObject createSubmission() throws ClientException, ConnectionException
 	{
 		return createSubmission("", 1, "", null);
 	}
@@ -165,9 +180,11 @@ public class CompilersClientV3
 	 * @param {boolean} withCmpinfo - determines whether compilation information should be returned
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing submission
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput, Boolean withStderr, Boolean withCmpinfo)
+	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput, Boolean withStderr, Boolean withCmpinfo) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> queryParams = new HashMap<String,String>();
@@ -193,9 +210,11 @@ public class CompilersClientV3
 	 * @param {boolean} withStderr - determines whether stderr should be returned
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing submission
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput, Boolean withStderr)
+	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput, Boolean withStderr) throws ClientException, ConnectionException
 	{
 		return getSubmission(id, withSource, withInput, withOutput, withStderr, false);
 	}
@@ -209,9 +228,11 @@ public class CompilersClientV3
 	 * @param {boolean} withOutput - determines whether output produced by the program should be returned
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing submission
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput)
+	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput, Boolean withOutput) throws ClientException, ConnectionException
 	{
 		return getSubmission(id, withSource, withInput, withOutput, false, false);
 	}
@@ -224,9 +245,11 @@ public class CompilersClientV3
 	 * @param {boolean} withInput - determines whether input data of the submission should be returned
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing submission
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput)
+	public JsonObject getSubmission(Integer id, Boolean withSource, Boolean withInput) throws ClientException, ConnectionException
 	{
 		return getSubmission(id, withSource, withInput, false, false, false);
 	}
@@ -238,9 +261,11 @@ public class CompilersClientV3
 	 * @param {boolean} withSource - determines whether source code of the submission should be returned
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing submission
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmission(Integer id, Boolean withSource)
+	public JsonObject getSubmission(Integer id, Boolean withSource) throws ClientException, ConnectionException
 	{
 		return getSubmission(id, withSource, false, false, false, false);
 	}
@@ -251,9 +276,11 @@ public class CompilersClientV3
 	 * @param {integer} id - Submission id
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing submission
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmission(Integer id)
+	public JsonObject getSubmission(Integer id) throws ClientException, ConnectionException
 	{
 		return getSubmission(id, false, false, false, false, false);
 	}
@@ -263,9 +290,11 @@ public class CompilersClientV3
 	 *
 	 * @param {Integer[]} ids - Submission ids (required)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmissions(Integer[] ids)
+	public JsonObject getSubmissions(Integer[] ids) throws ClientException, ConnectionException
 	{
 		Map<String, String> queryParams = new HashMap<String,String>();
 		
@@ -294,9 +323,11 @@ public class CompilersClientV3
 	 * @param {string} stream -  name of the stream, input|output|stderr|cmpinfo|source
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing submission or non existing stream
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return file content
 	 */
-	public String getSubmissionStream(Integer id, String stream)
+	public String getSubmissionStream(Integer id, String stream) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		List<String> streams = Arrays.asList("input", "stdin", "output", "stdout", "stderr", "error", "cmpinfo", "source");

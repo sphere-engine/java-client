@@ -5,8 +5,8 @@ package problems.initialization;
  */
 
 import com.SphereEngine.Api.ProblemsClientV3;
-
-import javax.ws.rs.WebApplicationException;
+import com.SphereEngine.Api.Exception.ConnectionException;
+import com.SphereEngine.Api.Exception.ClientException;
 
 public class connectionError 
 {
@@ -19,10 +19,10 @@ public class connectionError
 		
 		try {
 			client.test();
-		} catch (WebApplicationException e) {
+		} catch (ConnectionException e) {
 			System.out.println("API connection problem");
-		} finally {
-			// handle other exceptions (connection or network errors etc.)
+		} catch (ClientException e) {
+			// client error
 		}
 	}	
 }

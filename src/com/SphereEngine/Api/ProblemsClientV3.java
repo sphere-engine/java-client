@@ -2,11 +2,12 @@ package com.SphereEngine.Api;
 
 import java.util.Map;
 
-import javax.ws.rs.BadRequestException;
-
 import java.util.HashMap;
 import java.util.Arrays;
 
+import com.SphereEngine.Api.Exception.ClientException;
+import com.SphereEngine.Api.Exception.BadRequestException;
+import com.SphereEngine.Api.Exception.ConnectionException;
 import com.google.gson.JsonObject;
 
 /*
@@ -66,9 +67,11 @@ public class ProblemsClientV3
 	 * Test method
 	 *
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject test()
+	public JsonObject test() throws ClientException, ConnectionException
 	{
 		return apiClient.callApi("/test", "GET", null, null, null, null, null);
 	}
@@ -77,9 +80,11 @@ public class ProblemsClientV3
 	 * List of all compilers
 	 *
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */	
-	public JsonObject getCompilers()
+	public JsonObject getCompilers() throws ClientException, ConnectionException
 	{
 	    return apiClient.callApi("/compilers", "GET", null, null, null, null, null);
 	}
@@ -91,9 +96,11 @@ public class ProblemsClientV3
 	 * @param {integer} offset  - offset
 	 * @param {string} type - Judge type, enum: testcase|master
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getJudges(Integer limit, Integer offset, String type)
+	public JsonObject getJudges(Integer limit, Integer offset, String type) throws ClientException, ConnectionException
 	{
 		Map<String, String> queryParams = new HashMap<String,String>();
 		
@@ -110,9 +117,11 @@ public class ProblemsClientV3
 	 * @param {integer} limit - limit of judges to get
 	 * @param {integer} offset - offset
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getJudges(Integer limit, Integer offset)
+	public JsonObject getJudges(Integer limit, Integer offset) throws ClientException, ConnectionException
 	{
 		return getJudges(limit, offset, "testcase");
 	}
@@ -122,9 +131,11 @@ public class ProblemsClientV3
 	 *
 	 * @param {integer} limit - limit of judges to get
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getJudges(Integer limit)
+	public JsonObject getJudges(Integer limit) throws ClientException, ConnectionException
 	{
 		return getJudges(limit, 0, "testcase");
 	}
@@ -133,9 +144,11 @@ public class ProblemsClientV3
 	 * List of first 10 testcase judges starting from the first one
 	 * 
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getJudges()
+	public JsonObject getJudges() throws ClientException, ConnectionException
 	{
 		return getJudges(10, 0, "testcase");
 	}
@@ -150,9 +163,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws BadRequestException for empty source code
 	 * @throws NotFoundException for non existing compiler
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createJudge(String source, Integer compiler, String type, String name)
+	public JsonObject createJudge(String source, Integer compiler, String type, String name) throws ClientException, ConnectionException
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
 		
@@ -177,9 +192,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws BadRequestException for empty source code
 	 * @throws NotFoundException for non existing compiler
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createJudge(String source, Integer compiler, String type)
+	public JsonObject createJudge(String source, Integer compiler, String type) throws ClientException, ConnectionException
 	{
 		return createJudge(source, compiler, type, "");
 	}
@@ -192,9 +209,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws BadRequestException for empty source code
 	 * @throws NotFoundException for non existing compiler
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createJudge(String source, Integer compiler)
+	public JsonObject createJudge(String source, Integer compiler) throws ClientException, ConnectionException
 	{
 		return createJudge(source, compiler, "testcase", "");
 	}
@@ -205,9 +224,11 @@ public class ProblemsClientV3
 	 * @param {string} source - source code
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws BadRequestException for empty source code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createJudge(String source)
+	public JsonObject createJudge(String source) throws ClientException, ConnectionException
 	{
 		return createJudge(source, 1, "testcase", "");
 	}
@@ -219,9 +240,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing judge
 	 * @throws ForbiddenException for retrieving foreign judge details
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getJudge(Integer id)
+	public JsonObject getJudge(Integer id) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		
@@ -242,9 +265,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing judge
 	 * @throws NotFoundException for non existing compiler
 	 * @throws BadRequestException for empty source code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateJudge(Integer id, String source, Integer compiler, String name)
+	public JsonObject updateJudge(Integer id, String source, Integer compiler, String name) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> postParams = new HashMap<String,String>();
@@ -273,9 +298,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing judge
 	 * @throws NotFoundException for non existing compiler
 	 * @throws BadRequestException for empty source code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateJudge(Integer id, String source, Integer compiler)
+	public JsonObject updateJudge(Integer id, String source, Integer compiler) throws ClientException, ConnectionException
 	{
 		return updateJudge(id, source, compiler, null);
 	}
@@ -288,9 +315,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing judge
 	 * @throws BadRequestException for empty source code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateJudge(Integer id, String source)
+	public JsonObject updateJudge(Integer id, String source) throws ClientException, ConnectionException
 	{
 		return updateJudge(id, source, null, null);
 	}
@@ -302,9 +331,11 @@ public class ProblemsClientV3
 	 * @param {integer} offset - offset
 	 * @param {boolean} shortBody - determines whether shortened body should be returned
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getProblems(Integer limit, Integer offset, Boolean shortBody)
+	public JsonObject getProblems(Integer limit, Integer offset, Boolean shortBody) throws ClientException, ConnectionException
 	{
 		Map<String, String> queryParams = new HashMap<String,String>();
 		
@@ -322,9 +353,11 @@ public class ProblemsClientV3
 	 * @param {integer} offset - offset
 	 * @param {boolean} shortBody - determines whether shortened body should be returned
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getProblems(Integer limit, Integer offset)
+	public JsonObject getProblems(Integer limit, Integer offset) throws ClientException, ConnectionException
 	{
 		return getProblems(limit, offset, false);
 	}
@@ -334,9 +367,11 @@ public class ProblemsClientV3
 	 *
 	 * @param {integer} limit - limit of problems to get
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getProblems(Integer limit)
+	public JsonObject getProblems(Integer limit) throws ClientException, ConnectionException
 	{
 		return getProblems(limit, 0, false);
 	}
@@ -345,9 +380,11 @@ public class ProblemsClientV3
 	 * List of 10 problems starting from the first one without shortened body
 	 *
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getProblems()
+	public JsonObject getProblems() throws ClientException, ConnectionException
 	{
 		return getProblems(10, 0, false);
 	}
@@ -367,9 +404,11 @@ public class ProblemsClientV3
 	 * @throws BadRequestException for not unique problem code
 	 * @throws BadRequestException for invalid problem code
 	 * @throws NotFoundException for non existing masterjudge
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge)
+	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge) throws ClientException, ConnectionException
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
 		
@@ -402,9 +441,11 @@ public class ProblemsClientV3
 	 * @throws BadRequestException for empty problem name
 	 * @throws BadRequestException for not unique problem code
 	 * @throws BadRequestException for invalid problem code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive)
+	public JsonObject createProblem(String code, String name, String body, String type, Boolean interactive) throws ClientException, ConnectionException
 	{
 		return createProblem(code, name, body, type, interactive, 1001);
 	}
@@ -421,9 +462,11 @@ public class ProblemsClientV3
 	 * @throws BadRequestException for empty problem name
 	 * @throws BadRequestException for not unique problem code
 	 * @throws BadRequestException for invalid problem code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblem(String code, String name, String body, String type)
+	public JsonObject createProblem(String code, String name, String body, String type) throws ClientException, ConnectionException
 	{
 		return createProblem(code, name, body, type, false, 1001);
 	}
@@ -439,9 +482,11 @@ public class ProblemsClientV3
 	 * @throws BadRequestException for empty problem name
 	 * @throws BadRequestException for not unique problem code
 	 * @throws BadRequestException for invalid problem code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblem(String code, String name, String body)
+	public JsonObject createProblem(String code, String name, String body) throws ClientException, ConnectionException
 	{
 		return createProblem(code, name, body, "binary", false, 1001);
 	}
@@ -456,9 +501,11 @@ public class ProblemsClientV3
 	 * @throws BadRequestException for empty problem name
 	 * @throws BadRequestException for not unique problem code
 	 * @throws BadRequestException for invalid problem code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblem(String code, String name)
+	public JsonObject createProblem(String code, String name) throws ClientException, ConnectionException
 	{
 		return createProblem(code, name, "", "binary", false, 1001);
 	}
@@ -470,9 +517,11 @@ public class ProblemsClientV3
 	 * @param {boolean} shortBody - determines whether shortened body should be returned
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing problem
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getProblem(String code, Boolean shortBody)
+	public JsonObject getProblem(String code, Boolean shortBody) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> queryParams = new HashMap<String,String>();
@@ -489,9 +538,11 @@ public class ProblemsClientV3
 	 * @param {string} code - Problem code
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing problem
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getProblem(String code)
+	public JsonObject getProblem(String code) throws ClientException, ConnectionException
 	{
 		return getProblem(code, false);
 	}
@@ -512,9 +563,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing masterjudge
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge, Integer[] activeTestcases)
+	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge, Integer[] activeTestcases) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> postParams = new HashMap<String,String>();
@@ -559,9 +612,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing masterjudge
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge)
+	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive, Integer masterjudge) throws ClientException, ConnectionException
 	{
 		return updateProblem(code, name, body, type, interactive, masterjudge, null);
 	}
@@ -579,9 +634,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive)
+	public JsonObject updateProblem(String code, String name, String body, String type, Boolean interactive) throws ClientException, ConnectionException
 	{
 		return updateProblem(code, name, body, type, interactive, null, null);
 	}
@@ -598,9 +655,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblem(String code, String name, String body, String type)
+	public JsonObject updateProblem(String code, String name, String body, String type) throws ClientException, ConnectionException
 	{
 		return updateProblem(code, name, body, type, null, null, null);
 	}
@@ -616,9 +675,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblem(String code, String name, String body)
+	public JsonObject updateProblem(String code, String name, String body) throws ClientException, ConnectionException
 	{
 		return updateProblem(code, name, body, null, null, null, null);
 	}
@@ -633,9 +694,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
 	 * @throws BadRequestException for empty problem name
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblem(String code, String name)
+	public JsonObject updateProblem(String code, String name) throws ClientException, ConnectionException
 	{
 		return updateProblem(code, name, null, null, null, null, null);
 	}
@@ -649,9 +712,11 @@ public class ProblemsClientV3
 	 * @throws ForbiddenException for modifying foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty problem code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblemActiveTestcases(String problemCode, Integer[] activeTestcases)
+	public JsonObject updateProblemActiveTestcases(String problemCode, Integer[] activeTestcases) throws ClientException, ConnectionException
 	{
 		return updateProblem(problemCode, null, null, null, null, null, activeTestcases);
 	}
@@ -663,9 +728,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws ForbiddenException for retrieving testcases of foreign problem
 	 * @throws NotFoundException for non existing problem
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getProblemTestcases(String problemCode)
+	public JsonObject getProblemTestcases(String problemCode) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		
@@ -687,9 +754,11 @@ public class ProblemsClientV3
 	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing judge
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit, Integer judgeId, Boolean active)
+	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit, Integer judgeId, Boolean active) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> postParams = new HashMap<String,String>();
@@ -717,9 +786,11 @@ public class ProblemsClientV3
 	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing judge
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit, Integer judgeId)
+	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit, Integer judgeId) throws ClientException, ConnectionException
 	{
 		return createProblemTestcase(problemCode, input, output, timelimit, judgeId, true);
 	}
@@ -734,9 +805,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit)
+	public JsonObject createProblemTestcase(String problemCode, String input, String output, Double timelimit) throws ClientException, ConnectionException
 	{
 		return createProblemTestcase(problemCode, input, output, timelimit, 1, true);
 	}
@@ -750,9 +823,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblemTestcase(String problemCode, String input, String output)
+	public JsonObject createProblemTestcase(String problemCode, String input, String output) throws ClientException, ConnectionException
 	{
 		return createProblemTestcase(problemCode, input, output, 1.0, 1, true);
 	}
@@ -766,9 +841,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblemTestcase(String problemCode, String input)
+	public JsonObject createProblemTestcase(String problemCode, String input) throws ClientException, ConnectionException
 	{
 		return createProblemTestcase(problemCode, input, "", 1.0, 1, true);
 	}
@@ -781,9 +858,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws ForbiddenException for adding a testcase to foreign problem
 	 * @throws NotFoundException for non existing problem
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createProblemTestcase(String problemCode)
+	public JsonObject createProblemTestcase(String problemCode) throws ClientException, ConnectionException
 	{
 		return createProblemTestcase(problemCode, "", "", 1.0, 1, true);
 	}
@@ -797,9 +876,11 @@ public class ProblemsClientV3
 	 * @throws ForbiddenException for retrieving a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getProblemTestcase(String problemCode, Integer number)
+	public JsonObject getProblemTestcase(String problemCode, Integer number) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		
@@ -824,9 +905,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @throws NotFoundException for non existing judge
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId, Boolean active)
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId, Boolean active) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		Map<String, String> postParams = new HashMap<String,String>();
@@ -857,9 +940,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @throws NotFoundException for non existing judge
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId)
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit, Integer judgeId) throws ClientException, ConnectionException
 	{
 		return updateProblemTestcase(problemCode, number, input, output, timelimit, judgeId, null);
 	}
@@ -876,9 +961,11 @@ public class ProblemsClientV3
 	 * @throws ForbiddenException for updating a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit)
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output, Double timelimit) throws ClientException, ConnectionException
 	{
 		return updateProblemTestcase(problemCode, number, input, output, timelimit, null, null);
 	}
@@ -894,9 +981,11 @@ public class ProblemsClientV3
 	 * @throws ForbiddenException for updating a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output)
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input, String output) throws ClientException, ConnectionException
 	{
 		return updateProblemTestcase(problemCode, number, input, output, null, null, null);
 	}
@@ -911,9 +1000,11 @@ public class ProblemsClientV3
 	 * @throws ForbiddenException for updating a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input)
+	public JsonObject updateProblemTestcase(String problemCode, Integer number, String input) throws ClientException, ConnectionException
 	{
 		return updateProblemTestcase(problemCode, number, input, null, null, null, null);
 	}
@@ -927,9 +1018,11 @@ public class ProblemsClientV3
 	 * @throws ForbiddenException for removing a testcase of foreign problem
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject deleteProblemTestcase(String problemCode, Integer number)
+	public JsonObject deleteProblemTestcase(String problemCode, Integer number) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		
@@ -950,9 +1043,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing testcase
 	 * @throws NotFoundException for non existing file
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return file content
 	 */
-	public String getProblemTestcaseFile(String problemCode, Integer number, String filename)
+	public String getProblemTestcaseFile(String problemCode, Integer number, String filename) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		
@@ -979,9 +1074,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing compiler
 	 * @throws NotFoundException for non existing user
 	 * @throws BadRequestException for empty source code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user, Integer priority)
+	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user, Integer priority) throws ClientException, ConnectionException
 	{
 		Map<String, String> postParams = new HashMap<String,String>();
 		
@@ -1010,9 +1107,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing compiler
 	 * @throws NotFoundException for non existing user
 	 * @throws BadRequestException for empty source code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user)
+	public JsonObject createSubmission(String problemCode, String source, Integer compiler, Integer user) throws ClientException, ConnectionException
 	{
 		return createSubmission(problemCode, source, compiler, user, null);
 	}
@@ -1027,9 +1126,11 @@ public class ProblemsClientV3
 	 * @throws NotFoundException for non existing problem
 	 * @throws NotFoundException for non existing compiler
 	 * @throws BadRequestException for empty source code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String problemCode, String source, Integer compiler)
+	public JsonObject createSubmission(String problemCode, String source, Integer compiler) throws ClientException, ConnectionException
 	{
 		return createSubmission(problemCode, source, compiler, null, null);
 	}
@@ -1042,9 +1143,11 @@ public class ProblemsClientV3
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing problem
 	 * @throws BadRequestException for empty source code
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject createSubmission(String problemCode, String source)
+	public JsonObject createSubmission(String problemCode, String source) throws ClientException, ConnectionException
 	{
 		return createSubmission(problemCode, source, 1, null, null);
 	}
@@ -1055,9 +1158,11 @@ public class ProblemsClientV3
 	 * @param {integer} id - Submission ID
 	 * @throws NotAuthorizedException for invalid access token
 	 * @throws NotFoundException for non existing submission
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmission(Integer id)
+	public JsonObject getSubmission(Integer id) throws ClientException, ConnectionException
 	{
 		Map<String, String> urlParams = new HashMap<String,String>();
 		
@@ -1071,9 +1176,11 @@ public class ProblemsClientV3
 	 *
 	 * @param {Integer[]} ids - Submission ids (required)
 	 * @throws NotAuthorizedException for invalid access token
+	 * @throws ClientException
+	 * @throws ConnectionException
 	 * @return API response
 	 */
-	public JsonObject getSubmissions(Integer[] ids)
+	public JsonObject getSubmissions(Integer[] ids) throws ClientException, ConnectionException
 	{
 		Map<String, String> queryParams = new HashMap<String,String>();
 		

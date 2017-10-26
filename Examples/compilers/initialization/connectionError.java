@@ -4,9 +4,9 @@ package compilers.initialization;
  * Sphere Engine Compilers API client
  */
 
-import javax.ws.rs.WebApplicationException;
-
 import com.SphereEngine.Api.CompilersClientV3;
+import com.SphereEngine.Api.Exception.ClientException;
+import com.SphereEngine.Api.Exception.ConnectionException;
 
 public class connectionError 
 {
@@ -19,10 +19,10 @@ public class connectionError
 		
 		try {
 			client.test();
-		} catch (WebApplicationException e) {
+		} catch (ConnectionException e) {
 			System.out.println("API connection problem");
-		} finally {
-			// handle other exceptions (connection or network errors etc.)
+		} catch (ClientException e) {
+			// client error
 		}
 	}	
 }

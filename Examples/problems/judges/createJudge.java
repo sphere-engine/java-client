@@ -4,6 +4,11 @@ package problems.judges;
  */
 
 import com.SphereEngine.Api.ProblemsClientV3;
+import com.SphereEngine.Api.Exception.NotAuthorizedException;
+import com.SphereEngine.Api.Exception.NotFoundException;
+import com.SphereEngine.Api.Exception.BadRequestException;
+import com.SphereEngine.Api.Exception.ClientException;
+import com.SphereEngine.Api.Exception.ConnectionException;
 import com.google.gson.JsonObject;
 
 public class createJudge 
@@ -18,7 +23,19 @@ public class createJudge
 		String source = "<source code>";
 		Integer compiler = 11; // C language
 		
-		JsonObject response = client.createJudge(source, compiler);
-		// response.get("id") stores the ID of the created judge
+		try {
+			JsonObject response = client.createJudge(source, compiler);
+			// response.get("id") stores the ID of the created judge
+		} catch (NotAuthorizedException e) {
+			System.out.println("Invalid access token");
+		} catch (NotFoundException e) {
+			System.out.println("Compiler does not exist");
+		} catch (BadRequestException e) {
+			System.out.println("Empty source");
+		} catch (ClientException e) {
+			System.out.println(e.getMessage());
+		} catch (ConnectionException e) {
+			System.out.println(e.getMessage());
+		}
 	}	
 }

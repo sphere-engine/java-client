@@ -4,9 +4,13 @@ package compilers.submissions;
  */
 
 import com.SphereEngine.Api.CompilersClientV3;
+import com.SphereEngine.Api.Exception.NotAuthorizedException;
+import com.SphereEngine.Api.Exception.NotFoundException;
+import com.SphereEngine.Api.Exception.ClientException;
+import com.SphereEngine.Api.Exception.ConnectionException;
 import com.google.gson.JsonObject;
 
-public class getSubmission 
+public class getSubmission
 {
 
 	public static void main(String[] args) 
@@ -15,6 +19,16 @@ public class getSubmission
 				"<access_token>", 
 				"<endpoint>");
 		
-		JsonObject response = client.getSubmission(2016);
+		try {
+			JsonObject response = client.getSubmission(2016);
+		} catch (NotAuthorizedException e) {
+			System.out.println("Invalid access token");
+		} catch (NotFoundException e) {
+			System.out.println("Submission does not exist");
+		} catch (ClientException e) {
+			System.out.println(e.getMessage());
+		} catch (ConnectionException e) {
+			System.out.println(e.getMessage());
+		}
 	}	
 }

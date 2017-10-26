@@ -5,8 +5,9 @@ package compilers.initialization;
  */
 
 import com.SphereEngine.Api.CompilersClientV3;
-
-import javax.ws.rs.NotAuthorizedException;
+import com.SphereEngine.Api.Exception.NotAuthorizedException;
+import com.SphereEngine.Api.Exception.ClientException;
+import com.SphereEngine.Api.Exception.ConnectionException;
 
 public class authError 
 {
@@ -21,6 +22,10 @@ public class authError
 			client.test();
 		} catch (NotAuthorizedException e) {
 			System.out.println("Invalid access token");
+		} catch (ClientException e) {
+			// client error
+		} catch (ConnectionException e) {
+			// connection problem
 		}
 	}	
 }

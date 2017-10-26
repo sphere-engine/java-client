@@ -4,13 +4,14 @@ package compilers;
  * Sphere Engine Compilers API client
 */
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.NotAuthorizedException;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.WebApplicationException;
-
 import com.SphereEngine.Api.CompilersClientV3;
+import com.SphereEngine.Api.Exception.NotAuthorizedException;
+import com.SphereEngine.Api.Exception.NotFoundException;
+import com.SphereEngine.Api.Exception.BadRequestException;
+import com.SphereEngine.Api.Exception.ForbiddenException;
+import com.SphereEngine.Api.Exception.ClientException;
+import com.SphereEngine.Api.Exception.ConflictException;
+import com.SphereEngine.Api.Exception.ConnectionException;
 
 public class errorHandling
 {
@@ -25,6 +26,8 @@ public class errorHandling
 		try {
 		    // any API method usage
 		    // client.methodName(parameters..)
+			// example:
+			client.test();
 		} catch (NotAuthorizedException e) {
 			System.out.println("Invalid access token");
 		} catch (ForbiddenException e) {
@@ -37,10 +40,14 @@ public class errorHandling
 			System.out.println("Bad request");
 			// more details about missing resource are provided in $e->getMessage()
 	    	// possible reasons depend on called API method
-		} catch (WebApplicationException e) {
+		} catch (ConflictException e) {
+			System.out.println("Conflict exception (code 409)");
+		} catch (ClientException e) {
+			System.out.println("Client error");
+			// others uncaught client exception
+			// more details are provided in $e->getMessage()
+		} catch (ConnectionException e) {
 			System.out.println("API connection problem");
-		} finally {
-			// handle other exceptions (connection or network errors etc.)
 		}
 	}
 }
