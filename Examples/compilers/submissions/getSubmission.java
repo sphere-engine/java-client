@@ -13,22 +13,22 @@ import com.google.gson.JsonObject;
 public class getSubmission
 {
 
-	public static void main(String[] args) 
-	{
-		CompilersClientV3 client = new CompilersClientV3(
-				"<access_token>", 
-				"<endpoint>");
-		
-		try {
-			JsonObject response = client.getSubmission(2016);
-		} catch (NotAuthorizedException e) {
-			System.out.println("Invalid access token");
-		} catch (NotFoundException e) {
-			System.out.println("Submission does not exist");
-		} catch (ClientException e) {
-			System.out.println(e.getMessage());
-		} catch (ConnectionException e) {
-			System.out.println(e.getMessage());
-		}
-	}	
+    public static void main(String[] args) 
+    {
+        CompilersClientV3 client = new CompilersClientV3(
+                "<access_token>", 
+                "<endpoint>");
+        
+        try {
+            JsonObject response = client.getSubmission(2016);
+        } catch (NotAuthorizedException e) {
+            System.out.println("Invalid access token");
+        } catch (NotFoundException e) {
+            System.out.println("Submission does not exist");
+        } catch (ClientException e) {
+            System.out.println(e.getMessage());
+        } catch (ConnectionException e) {
+            System.out.println(e.getMessage());
+        }
+    }	
 }

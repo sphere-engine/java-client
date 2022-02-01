@@ -13,22 +13,22 @@ import com.google.gson.JsonObject;
 public class getProblem 
 {
 
-	public static void main(String[] args) 
-	{
-		ProblemsClientV3 client = new ProblemsClientV3(
-				"<access_token>", 
-				"<endpoint>");
-		
-		try {
-			JsonObject response = client.getProblem("TEST");
-		} catch (NotAuthorizedException e) {
-			System.out.println("Invalid access token");
-		} catch (NotFoundException e) {
-			System.out.println("Problem does not exist");
-		} catch (ClientException e) {
-			System.out.println(e.getMessage());
-		} catch (ConnectionException e) {
-			System.out.println(e.getMessage());
-		}
-	}	
+    public static void main(String[] args) 
+    {
+        ProblemsClientV3 client = new ProblemsClientV3(
+                "<access_token>", 
+                "<endpoint>");
+        
+        try {
+            JsonObject response = client.getProblem("TEST");
+        } catch (NotAuthorizedException e) {
+            System.out.println("Invalid access token");
+        } catch (NotFoundException e) {
+            System.out.println("Problem does not exist");
+        } catch (ClientException e) {
+            System.out.println(e.getMessage());
+        } catch (ConnectionException e) {
+            System.out.println(e.getMessage());
+        }
+    }	
 }

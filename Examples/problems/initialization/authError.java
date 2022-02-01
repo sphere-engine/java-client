@@ -12,20 +12,20 @@ import com.SphereEngine.Api.Exception.ConnectionException;
 public class authError 
 {
 
-	public static void main(String[] args) 
-	{
-		ProblemsClientV3 client = new ProblemsClientV3(
-				"wrong_access_token",
-				"<endpoint>");
-		
-		try {
-			client.test();
-		} catch (NotAuthorizedException e) {
-			System.out.println("Invalid access token");
-		} catch (ClientException e) {
-			// client error
-		} catch (ConnectionException e) {
-			// connection problem
-		}
-	}	
+    public static void main(String[] args) 
+    {
+        ProblemsClientV3 client = new ProblemsClientV3(
+                "wrong_access_token",
+                "<endpoint>");
+        
+        try {
+            client.test();
+        } catch (NotAuthorizedException e) {
+            System.out.println("Invalid access token");
+        } catch (ClientException e) {
+            // client error
+        } catch (ConnectionException e) {
+            // connection problem
+        }
+    }	
 }

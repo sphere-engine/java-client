@@ -11,18 +11,18 @@ import com.SphereEngine.Api.Exception.ClientException;
 public class connectionError 
 {
 
-	public static void main(String[] args) 
-	{
-		ProblemsClientV3 client = new ProblemsClientV3(
-				"<access_token>", 
-				"<endpoint>");
-		
-		try {
-			client.test();
-		} catch (ConnectionException e) {
-			System.out.println("API connection problem");
-		} catch (ClientException e) {
-			// client error
-		}
-	}	
+    public static void main(String[] args) 
+    {
+        ProblemsClientV3 client = new ProblemsClientV3(
+                "<access_token>", 
+                "<endpoint>");
+        
+        try {
+            client.test();
+        } catch (ConnectionException e) {
+            System.out.println("API connection problem");
+        } catch (ClientException e) {
+            // client error
+        }
+    }	
 }

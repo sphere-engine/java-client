@@ -14,24 +14,24 @@ import com.google.gson.JsonObject;
 public class getJudge 
 {
 
-	public static void main(String[] args) 
-	{
-		ProblemsClientV3 client = new ProblemsClientV3(
-				"<access_token>", 
-				"<endpoint>");
-		
-		try {
-			JsonObject response = client.getJudge(1);
-		} catch (NotAuthorizedException e) {
-			System.out.println("Invalid access token");
-		} catch (ForbiddenException e) {
-			System.out.println("Access to the judge is forbidden");
-		} catch (NotFoundException e) {
-			System.out.println("Judge does not exist");
-		} catch (ClientException e) {
-			System.out.println(e.getMessage());
-		} catch (ConnectionException e) {
-			System.out.println(e.getMessage());
-		}
-	}	
+    public static void main(String[] args) 
+    {
+        ProblemsClientV3 client = new ProblemsClientV3(
+                "<access_token>", 
+                "<endpoint>");
+        
+        try {
+            JsonObject response = client.getJudge(1);
+        } catch (NotAuthorizedException e) {
+            System.out.println("Invalid access token");
+        } catch (ForbiddenException e) {
+            System.out.println("Access to the judge is forbidden");
+        } catch (NotFoundException e) {
+            System.out.println("Judge does not exist");
+        } catch (ClientException e) {
+            System.out.println(e.getMessage());
+        } catch (ConnectionException e) {
+            System.out.println(e.getMessage());
+        }
+    }	
 }

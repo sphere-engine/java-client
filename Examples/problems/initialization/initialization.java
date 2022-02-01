@@ -9,10 +9,10 @@ import com.SphereEngine.Api.ProblemsClientV3;
 public class initialization 
 {
 
-	public static void main(String[] args) 
-	{
-		ProblemsClientV3 client = new ProblemsClientV3(
-				"<access_token>", 
-				"<endpoint>");
-	}	
+    public static void main(String[] args) 
+    {
+        ProblemsClientV3 client = new ProblemsClientV3(
+                "<access_token>", 
+                "<endpoint>");
+    }	
 }
